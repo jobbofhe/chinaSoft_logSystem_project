@@ -5,9 +5,36 @@
 #include<string.h>
 #include<Windows.h>
 
+char *permissionMessg[] = {
+	" 1.增加用户",
+	" 2.删除用户",
+	" 3.修改用户",
+	" 4.查询用户",
+	" 5.增加角色",
+	" 6.删除角色",
+	" 7.修改角色",
+	" 8.查询角色",
+	" 9.修改权限",
+	"10.查询权限",
+};
 
 void main()
 {
+	/*int i = 0; 
+	permissionMessg[0] = " 1.用户";
+	permissionMessg[1] = " 1.用户";
+	permissionMessg[2] = " 1.用户";
+	permissionMessg[3] = " 1.用户";
+	permissionMessg[4] = " 1.增加用户";
+	permissionMessg[5] = " 1.增加用户";
+	permissionMessg[6] = " 1.增加用户";
+	permissionMessg[7] = " 1.增加用户";
+	permissionMessg[8] = " 1.增加用户";
+	permissionMessg[9] = " 1.增加用户";*/
+
+	
+	
+
 	logM *pSend = logToSystem();
 	logM pSendRe;
 

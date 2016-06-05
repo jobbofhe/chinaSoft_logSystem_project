@@ -26,6 +26,7 @@ struct USERMessage		//用户信息本地缓存结构体
 };
 typedef struct USERMessage userMsg;
 
+char *permissionMessg[10];
 
 /******一级菜单******/
 void logMenu();			//欢迎界面
@@ -43,20 +44,30 @@ void permissionManageMenu();	//权限管理菜单
 void userAllMessageMenu();
 
 
-
 /***************************************************************************/
-/***************************************************************************/
-
 //功能函数区
 void travUserMesg(char *userMessage);				//遍历用户信息
 void initStruct(logM * plogM);						//初始化用户登录信息结构体
 SOCKET  connectToServer();							//连接到服务器
 void processServerReMsg(logM *receiveServerMsg, SOCKET sockClient);		//处理服务器返回值信息
 
-void lisAlreadytExistUser();
+//用户管理函数
 void listExistUserName(logM * plogM);
-
 void addUser(SOCKET sockClient);
 void deleteUser(SOCKET sockClient);
 void changeUser(SOCKET sockClient);
 void queryUser(SOCKET sockClient);
+
+
+//角色管理函数
+void changeRole(SOCKET sockClient);			//修改角色
+void addRole(SOCKET sockClient);			//增加角色、
+void deleteRole(SOCKET sockClient);			//删除角色
+void queryRole(SOCKET sockClient);			//查询角色
+void listExistRole(SOCKET sockClient);		//列出当前所有角色名
+
+
+//权限管理函数
+void changePermission(SOCKET sockClient);			//修改权限
+void queryPermission(SOCKET sockClient);			//查询权限
+void listExistPermission();		//列出当前所有权限名

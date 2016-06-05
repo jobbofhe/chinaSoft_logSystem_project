@@ -106,9 +106,8 @@ void roleManageMenu()			//角色管理菜单
 
 void permissionManageMenu()		//权限管理菜单
 {
-	printf("1.增加权限.\n");
-	printf("2.删除权限.\n");
-	printf("4.查询权限.\n");
+	printf("1.修改权限.\n");
+	printf("2.查询权限.\n");
 	printf("0.退 出.\n");
 }
 

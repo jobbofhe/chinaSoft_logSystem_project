@@ -17,7 +17,7 @@ SOCKET  connectToServer()
 	sockClient = socket(AF_INET, SOCK_STREAM, 0);	//新建客户端socket
 
 	//定义要连接的服务端地址
-	addrServer.sin_addr.S_un.S_addr = inet_addr("192.168.1.16"); 
+	addrServer.sin_addr.S_un.S_addr = inet_addr("192.168.1.40"); 
 	addrServer.sin_family = AF_INET;
 	addrServer.sin_port = htons(10002); //连接端口10002
 
@@ -99,7 +99,7 @@ void initUserALLMsgStruct(userMsg * pUserMsg)
 	memset(pUserMsg->password, 0, sizeof(pUserMsg->password));
 }
 /************************************************************************/
-/* 处理服务器返回的headflag信息，根据返回消息                                                                     */
+/* 处理服务器返回的headflag信息，根据返回消息                                */
 /************************************************************************/
 void processServerReMsg(logM *receiveServerMsg, SOCKET sockClient)
 {
@@ -147,20 +147,45 @@ void processServerReMsg(logM *receiveServerMsg, SOCKET sockClient)
 					printf("查询用户：\n");
 					queryUser(sok);
 					printf("查询用户结束\n");
-
 				}
 				else
 				{
 					exit(0);
 				}
 			}
+
+
 			else if (2 == choose)
 			{
 				roleManageMenu();
 			}
+
+
 			else if (3 == choose)
 			{
 				permissionManageMenu();
+				fflush(stdin);
+
+				printf("\n请选择功能:");
+				scanf("%d", &choose);
+				
+				if (choose == 1)		//修改权限
+				{
+					printf("修改权限：");
+					changePermission(sok);
+				}
+				
+				else if (2 == choose)	//查询权限
+				{
+					printf("查询权限：\n");
+					queryPermission(sok);
+					printf("查询用户结束\n");
+
+				}
+				else
+				{
+					exit(0);
+				}
 			}
 			else
 			{
@@ -176,8 +201,10 @@ void processServerReMsg(logM *receiveServerMsg, SOCKET sockClient)
 	}
 }
 
+////////////////////////////////用户管理//////////////////////////////////
+                   
 /************************************************************************/
-/* 增加新用户                                                                     */
+/* 增加新用户                                                             */
 /************************************************************************/
 void addUser(SOCKET sockClient)
 {
@@ -267,10 +294,11 @@ void addUser(SOCKET sockClient)
 	free(pUserMsg);
 	free(allMsg);
 	free(pRe);
+	free(pFromServer);
 }
 
 /************************************************************************/
-/* 删除用户                                                                     */
+/* 删除用户                                                               */
 /************************************************************************/
 void deleteUser(SOCKET sockClient)
 {
@@ -320,8 +348,14 @@ void deleteUser(SOCKET sockClient)
 	{
 		printf("请求失败！\n");
 	}
+
+	free(plogM);
+	free(plogMRe);
 }
 
+/************************************************************************/
+/* 修改用户                                                              */
+/************************************************************************/
 void changeUser(SOCKET sockClient)
 {
 	SOCKET soc = sockClient;
@@ -426,8 +460,16 @@ void changeUser(SOCKET sockClient)
 	{
 		printf("请求失败！\n");
 	}
+
+	free(plogM);
+	free(plogMRe);
+	free(pUserMsg);
+	free(allMsg);
 }
 
+/************************************************************************/
+/* 查询用户                                                              */
+/************************************************************************/
 void queryUser(SOCKET sockClient)
 {
 	SOCKET soc = sockClient;
@@ -503,8 +545,14 @@ void queryUser(SOCKET sockClient)
 	{
 		printf("请求失败！\n");
 	}
+
+	free(plogM);
+	free(plogMRe);
 }
 
+/************************************************************************/
+/* 列出当前所有用户名                                                      */
+/************************************************************************/
 void listExistUserName(logM * plogM)
 {
 	//SOCKET soc = sockClient;
@@ -543,5 +591,121 @@ void listExistUserName(logM * plogM)
 	else
 	{
 		printf("删除请求出错，不能列出所有用户名！\n");
+	}
+}
+
+////////////////////////////////角色管理////////////////////////////////////
+
+
+
+
+////////////////////////////////权限管理////////////////////////////////////
+void changePermission(SOCKET sockClient)			//修改权限
+{
+	SOCKET soc = sockClient;
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//发送向服务其请求查询权限的消息
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//接受服务器回传的状态信息和权限信息
+
+	if (!soc)
+	{
+		printf("socket error！");
+	}
+		
+	char permissionNum[20] = { 0 };
+	printf("系统所有权限列表:\n");
+	listExistPermission();
+
+	printf("请选择权限：(输入1为添加，输入其他值为不添加)\n");
+	for (int i = 0; i < 10; i++)
+	{
+		printf("%s", permissionMessg[i]);
+		fflush(stdin);
+		scanf("%c", permissionNum + i);
+	}
+
+	//如果用户输入100位的排错代码
+	for (int i = 0; i < 10; i++)
+	{
+		if (permissionNum[i] == '1')
+		{
+			permissionNum[i] = '1';
+		}
+		else
+		{
+			permissionNum[i] = '0';
+		}
+	}
+
+	plogM->headFlag[0] = 4;	//权限管理标志
+	plogM->headFlag[1] = 1;	//申请修改标志
+	strcpy(plogM->userMessage, permissionNum);
+
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//发送请求查询数据
+
+	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
+	printf("收到服务器传回的字符串：\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
+	if (1 == plogMRe->headFlag[1])
+	{
+		printf("修改成功！\n");
+	}
+	else
+	{
+		printf("修改失败！\n");
+	}
+
+	free(plogM);
+	free(plogMRe);
+}
+
+void queryPermission(SOCKET sockClient)				//查询权限
+{
+	SOCKET soc = sockClient;
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//发送向服务其请求查询权限的消息
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//接受服务器回传的状态信息和权限信息
+
+
+	if (!soc)
+	{
+		printf("socket error！");
+	}
+	plogM->headFlag[0] = 4;	//权限管理标志
+	plogM->headFlag[1] = 2;	//申请查询标志
+
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//发送请求查询数据
+
+	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
+	printf("收到服务器传回的字符串：heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
+
+	if (2 == plogMRe->headFlag[1])
+	{
+		//列出已存在所有权限
+		char *pAp = plogMRe->userMessage;  //是0 1字符串
+		int len = strlen(pAp);
+
+
+		printf("所有权限信息:\n");
+		for (int i = 0; i < len; i++)
+		{
+			if (pAp[i] != '0')
+			{
+				printf("%s\n", permissionMessg[i]);
+			}
+		}
+	}
+	else
+	{
+		printf("请求失败！\n");
+	}
+
+	free(plogM);
+	free(plogMRe);
+
+}
+void listExistPermission()			//列出当前所有权限名
+{
+
+	for (int i = 0; i < 10; i++)
+	{
+		printf("%s\n", permissionMessg[i]);
 	}
 }
