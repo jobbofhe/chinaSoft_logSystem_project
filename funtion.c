@@ -1,4 +1,3 @@
-//#define _CRT_SECURE_NO_WARNINGS
 #include "func.h"
 #include<stdio.h>
 #include<stdlib.h>
@@ -17,7 +16,7 @@ SOCKET  connectToServer()
 	sockClient = socket(AF_INET, SOCK_STREAM, 0);	//新建客户端socket
 
 	//定义要连接的服务端地址
-	addrServer.sin_addr.S_un.S_addr = inet_addr("192.168.1.40"); 
+	addrServer.sin_addr.S_un.S_addr = inet_addr("192.168.1.49"); 
 	addrServer.sin_family = AF_INET;
 	addrServer.sin_port = htons(10002); //连接端口10002
 
@@ -78,14 +77,16 @@ void judgeUserMessageOverEight(int userMessageLen)
 */
 
 /********************************************************************
-*初始化结构体
+*初始化给服务发送消息的结构体
 ********************************************************************/
 void initStruct(logM * plogM)
 {
 	memset(plogM->headFlag, 0, sizeof(plogM->headFlag));
 	memset(plogM->userMessage, 0, sizeof(plogM->userMessage));
 }
-
+/************************************************************************/
+/* 初始化用户所有信息结构体                                                                     */
+/************************************************************************/
 void initUserALLMsgStruct(userMsg * pUserMsg)
 {
 	memset(pUserMsg->userName, 0, sizeof(pUserMsg->userName));
@@ -153,11 +154,36 @@ void processServerReMsg(logM *receiveServerMsg, SOCKET sockClient)
 					exit(0);
 				}
 			}
-
-
-			else if (2 == choose)
+			else if (2 == choose)   //角色管理
 			{
+				fflush(stdin);
+				printf("角色管理菜单：\n");
 				roleManageMenu();
+				printf("\n请选择功能:");
+				scanf("%d", &choose);
+
+				if (choose == 1)		//增加角色
+				{
+					printf("\n需要填写的信息如下：");
+					addRole(sok);
+				}
+				else if (2 == choose)	//删除角色
+				{
+					deleteRole(sok);
+				}
+				else if (3 == choose)	//修改角色
+				{
+					changeRole( sok);
+				}
+				else if (4 == choose)	//查询角色
+				{
+					queryRole(sok);
+				}
+				else
+				{
+					exit(0);
+				}
+
 			}
 
 
@@ -201,11 +227,8 @@ void processServerReMsg(logM *receiveServerMsg, SOCKET sockClient)
 	}
 }
 
+
 ////////////////////////////////用户管理//////////////////////////////////
-                   
-/************************************************************************/
-/* 增加新用户                                                             */
-/************************************************************************/
 void addUser(SOCKET sockClient)
 {
 	SOCKET sok = sockClient;
@@ -296,10 +319,6 @@ void addUser(SOCKET sockClient)
 	free(pRe);
 	free(pFromServer);
 }
-
-/************************************************************************/
-/* 删除用户                                                               */
-/************************************************************************/
 void deleteUser(SOCKET sockClient)
 {
 	SOCKET soc = sockClient;
@@ -352,10 +371,6 @@ void deleteUser(SOCKET sockClient)
 	free(plogM);
 	free(plogMRe);
 }
-
-/************************************************************************/
-/* 修改用户                                                              */
-/************************************************************************/
 void changeUser(SOCKET sockClient)
 {
 	SOCKET soc = sockClient;
@@ -381,7 +396,7 @@ void changeUser(SOCKET sockClient)
 		//输入要修改的用户名，和修改信息
 		char queryName[20] = { 0 };
 		plogM->headFlag[1] = 3;
-		memset(plogMRe, 0, sizeof(logM));
+		//memset(plogMRe, 0, sizeof(logM));
 
 		//输入要修改的用户名
 		printf("\n\n\n\n       请输入要修改的用户名:");
@@ -466,10 +481,6 @@ void changeUser(SOCKET sockClient)
 	free(pUserMsg);
 	free(allMsg);
 }
-
-/************************************************************************/
-/* 查询用户                                                              */
-/************************************************************************/
 void queryUser(SOCKET sockClient)
 {
 	SOCKET soc = sockClient;
@@ -549,10 +560,6 @@ void queryUser(SOCKET sockClient)
 	free(plogM);
 	free(plogMRe);
 }
-
-/************************************************************************/
-/* 列出当前所有用户名                                                      */
-/************************************************************************/
 void listExistUserName(logM * plogM)
 {
 	//SOCKET soc = sockClient;
@@ -594,9 +601,313 @@ void listExistUserName(logM * plogM)
 	}
 }
 
+
 ////////////////////////////////角色管理////////////////////////////////////
+void addRole(SOCKET sockClient)				//增加角色、
+{
+	SOCKET soc = sockClient;
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//发送向服务其请求查询权限的消息
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//接受服务器回传的状态信息和权限信息
 
+	char roleName[100] = { 0 };		//暂存角色名称
+	char roleNameAndPermission[1024] = { 0 };   //暂存要发给服务器的信息
+	char buf[10] = { 0 };
 
+	if (!soc)
+	{
+		printf("socket error！");
+	}
+
+	plogM->headFlag[0] = 3;
+	plogM->headFlag[1] = 1;
+
+	printf("\n请输入角色名称：");
+	scanf("%s", roleName);
+	strcat(roleNameAndPermission, roleName);
+	strcat(roleNameAndPermission, ":");
+	fflush(stdin);
+
+	printf("\n请选择要给所添加的角色赋予的权限：");
+	printf("\n输入1表示赋予该权限，0表示不赋予该权限！\n");
+
+	printf("1.增加用户:");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("2.删除用户");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("3.修改用户");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("4.查询用户");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("5.增加角色");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("6.删除角色");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("7.修改角色");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("8.查询角色");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("9.修改权限");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("10.查询权限");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	strcpy(plogM->userMessage, roleNameAndPermission);
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//发送请求查询数据
+	printf("\n增加角色确认发送：\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
+
+	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
+	printf("收到服务器传回的字符串：\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
+	
+	if (1 == plogMRe->headFlag[1])
+	{
+		printf("\n角色添加成功！");
+	}
+	else
+	{
+		printf("\n角色添加失败！");
+	}
+
+	free(plogM);
+	free(plogMRe);
+}
+void deleteRole(SOCKET sockClient)			//删除角色
+{
+	SOCKET soc = sockClient;
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//发送向服务其请求查询权限的消息
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//接受服务器回传的状态信息和权限信息
+	char roleName[100] = { 0 };
+
+	if (!soc)
+	{
+		printf("socket error！");
+	}
+
+	plogM->headFlag[0] = 3;
+	plogM->headFlag[1] = 2;
+
+	listExistRole(soc);
+	printf("\n请输入要删除的角色名称：");
+	scanf("%s", roleName);
+	strcat(plogM->userMessage, roleName);
+
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//发送请求查询数据
+	printf("\n删除角色确认：\n heafFlag[1]=%d   %s", plogMRe->headFlag[1], plogMRe->userMessage);
+
+	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
+	printf("\n服务器传回：\n heafFlag[1]=%d   %s", plogMRe->headFlag[1], plogMRe->userMessage);
+
+	if (2 == plogMRe->headFlag[1])
+	{
+		printf("\n删除成功！\n");
+	}
+	else
+	{
+		printf("\n删除失败！\n");
+	}
+}
+void changeRole(SOCKET sockClient)			//修改角色
+{
+	SOCKET soc = sockClient;
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//发送向服务其请求查询权限的消息
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//接受服务器回传的状态信息和权限信息
+
+	char roleName[100] = { 0 };		//暂存角色名称
+	char roleNameAndPermission[1024] = { 0 };   //暂存要发给服务器的信息
+	char buf[10] = { 0 };
+	listExistRole(soc);
+
+	//输入要修改的角色名
+	char changeName[200] = { 0 };
+
+	plogM->headFlag[0] = 3;
+	plogM->headFlag[1] = 3;
+	memset(plogMRe, 0, sizeof(logM));
+
+	printf("\n请输入要修改的角色名称：");
+	scanf("%s", roleName);
+	strcat(roleNameAndPermission, roleName);
+	strcat(roleNameAndPermission, ":");
+	fflush(stdin);
+
+	printf("\n请重新赋予该角色权限。\n");
+	printf("\n输入1表示赋予该权限，0表示不赋予该权限！\n");
+
+	printf("1.增加用户:");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("2.删除用户");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("3.修改用户");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("4.查询用户");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("5.增加角色");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("6.删除角色");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("7.修改角色");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("8.查询角色");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("9.修改权限");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("10.查询权限");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	strcpy(plogM->userMessage, roleNameAndPermission);
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//发送请求查询数据
+	printf("\n增加角色确认发送：\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
+
+	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
+	printf("收到服务器传回的字符串：\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
+
+	if (3 == plogMRe->headFlag[1])
+	{
+		printf("\n角色修改成功！\n");
+	}
+	else
+	{
+		printf("\n角色修改失败！\n");
+	}
+
+	free(plogM);
+	free(plogMRe);
+}
+void queryRole(SOCKET sockClient)			//查询角色
+{
+	SOCKET soc = sockClient;
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//发送向服务其请求查询权限的消息
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//接受服务器回传的状态信息和权限信息
+
+	listExistRole(soc);
+		
+	//输入要查询的角色名，列出该用户的详细信息
+	char queryName[200] = { 0 };
+
+	plogM->headFlag[0] = 3;
+	plogM->headFlag[1] = 4;
+	plogM->headFlag[2] = 2;
+	memset(plogMRe, 0, sizeof(logM));
+
+	printf("请输入要查询的角色名：");
+	scanf("%s", queryName);
+	strcpy(plogM->userMessage, queryName);
+
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//发送数据
+	printf("\n发送用户名确认headFlag[2]:%d %s\n", plogM->headFlag[2], plogM->userMessage);
+
+	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);		//接受服务器返回的数据
+	printf("received server :%d %s\n", plogMRe->headFlag[2], plogMRe->userMessage);
+
+	strcat(plogMRe->userMessage, ":");
+	if (2 == plogMRe->headFlag[2])
+	{
+		char *oneRolePermission = plogMRe->userMessage;
+
+		printf("角色详细信息:\n");
+		for (int i = 0; oneRolePermission[i] != ':'; i++)
+		{
+			if (oneRolePermission[i] == '1')
+			{
+				printf("%s\n", permissionMessg[i]);
+			}	
+		}
+	}
+	else
+	{
+		printf("\n查询失败！\n");
+	}
+
+	
+	free(plogM);
+	free(plogMRe);
+}
+void listExistRole(SOCKET sockClient)		//列出当前所有角色名
+{
+	SOCKET soc = sockClient;
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//发送向服务其请求查询权限的消息
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//接受服务器回传的状态信息和权限信息
+
+	if (!soc)
+	{
+		printf("socket error！");
+	}
+	plogM->headFlag[0] = 3;
+	plogM->headFlag[1] = 4;
+	plogM->headFlag[2] = 1;
+
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//发送请求查询角色
+	printf("\n增加角色送确认：\n heafFlag[1]=%d\n", plogMRe->headFlag[2]);
+
+	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
+	printf("\n服务器传回：\n heafFlag[1]=%d\n", plogMRe->headFlag[2]);
+
+	if (1 == plogMRe->headFlag[2])			//请求查询角色成功
+	{
+		//列出已存在所有角色名称
+		char *allRoleName = plogMRe->userMessage;
+		char *pArn = allRoleName;
+		char buf[20] = { 0 };		//暂存角色一条名称
+
+		printf("所有角色信息:\n");
+		while (*allRoleName != '\0')
+		{
+			if (*allRoleName == ':')
+			{
+				strncpy(buf, pArn, allRoleName - pArn);
+				buf[allRoleName - pArn] = '\0';
+				printf("角色名： %s\n", buf);
+				//memset(buf, 0, sizeof(buf));
+				pArn = pArn + (allRoleName - pArn) + 1;
+			}
+			allRoleName++;
+		}
+	}
+	else
+	{
+		printf("\n请求查询角色信息失败！");
+	}
+
+	free(plogM);
+	free(plogMRe);
+}
 
 
 ////////////////////////////////权限管理////////////////////////////////////
@@ -656,7 +967,6 @@ void changePermission(SOCKET sockClient)			//修改权限
 	free(plogM);
 	free(plogMRe);
 }
-
 void queryPermission(SOCKET sockClient)				//查询权限
 {
 	SOCKET soc = sockClient;

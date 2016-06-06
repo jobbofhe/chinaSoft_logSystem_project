@@ -60,9 +60,9 @@ void queryUser(SOCKET sockClient);
 
 
 //角色管理函数
-void changeRole(SOCKET sockClient);			//修改角色
 void addRole(SOCKET sockClient);			//增加角色、
 void deleteRole(SOCKET sockClient);			//删除角色
+void changeRole(SOCKET sockClient);			//修改角色
 void queryRole(SOCKET sockClient);			//查询角色
 void listExistRole(SOCKET sockClient);		//列出当前所有角色名
 

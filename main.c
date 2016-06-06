@@ -20,20 +20,6 @@ char *permissionMessg[] = {
 
 void main()
 {
-	/*int i = 0; 
-	permissionMessg[0] = " 1.用户";
-	permissionMessg[1] = " 1.用户";
-	permissionMessg[2] = " 1.用户";
-	permissionMessg[3] = " 1.用户";
-	permissionMessg[4] = " 1.增加用户";
-	permissionMessg[5] = " 1.增加用户";
-	permissionMessg[6] = " 1.增加用户";
-	permissionMessg[7] = " 1.增加用户";
-	permissionMessg[8] = " 1.增加用户";
-	permissionMessg[9] = " 1.增加用户";*/
-
-	
-	
 
 	logM *pSend = logToSystem();
 	logM pSendRe;
