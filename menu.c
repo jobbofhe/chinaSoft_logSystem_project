@@ -1,74 +1,131 @@
-//#define _CRT_SECURE_NO_WARNINGS
+ï»¿//#define _CRT_SECURE_NO_WARNINGS
 #include "func.h"
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 
 
+
 void logMenu()
 {
 	system("color 5e");
-
-	printf("-------------------------------------------------------------\n");
-	printf("                     **** ¹ÜÀíÏµÍ³ ****               \n\n");
-	printf("-------------------------------------------------------------\n\n");
-	printf("                        1.ÓÃ»§Ãû.                            \n\n");
-	printf("                        2.ÃÜ  Âë.                          \n\n");
-	printf("                        0.ÍË  ³ö.                         \n");
-
-	printf("-------------------------------------------------------------\n");
-}
+	// â– â–ƒ â–  â— â—† â–¡ â—‡ Â§ â™ª â™« â– â– â–‚ â– â˜† â” â”‘ â”• â”™  â•­ â”€ â•® â”‚ â•³ â”ƒ â•° â” â•¯ 
+	printf("\n\n");
+	printf("\t************************* æ¬¢è¿æ¥åˆ° *************************\n");
+	printf("\t*                                                          *\n");
+	printf("\t*                     ç”¨ æˆ· ç®¡ ç† ç³» ç»Ÿ                    *\n");
+	printf("\t*----------------------------------------------------------* \n");
+	printf("\t*                                                          *\n");
+	printf("\t*                            ----æœ¬ç³»ç»Ÿç”±\"011ä¸–ç•Œ\"å¼€å‘---- *\n");
+	printf("\t*                            --2016/05/20â€”â€”2016/06/20--- *\n");
+	printf("\t************************************************************\n");
+	printf("\n");
+	printf("------------------------------------------------------------------------");
+} 
 
 logM *logToSystem()
 {
-	//ÉêÇë¿Õ¼ä½«µÇÂ¼µÄÓÃ»§ĞÅÏ¢±£´æ
-	logM * plogM = (logM *)calloc(1, sizeof(logM));
-	initStruct(plogM); //³õÊ¼»¯½á¹¹ÌåÖ¸Õë
+	logM * plogM = (logM *)calloc(1, sizeof(logM)); //ç”³è¯·ç©ºé—´å°†ç™»å½•çš„ç”¨æˆ·ä¿¡æ¯ä¿å­˜
+	initStruct(plogM); //åˆå§‹åŒ–ç»“æ„ä½“æŒ‡é’ˆ
 
 	char userName[100] = { 0 };
-	char password[100] = { 0 }; //´´½¨ÁÙÊ±±äÁ¿±£´æÓÃ»§µÇÂ¼Ê±µÄĞÅÏ¢
+	char password[100] = { 0 }; //åˆ›å»ºä¸´æ—¶å˜é‡ä¿å­˜ç”¨æˆ·ç™»å½•æ—¶çš„ä¿¡æ¯
 	char allMessge[200] = { 0 };
 
 	int userNameLen = 0;
 	int passwordLen = 0;
 	int count = 0;
+	int icountu = 0;
+	int icountp = 0;
 
-	do{
-	logMenu();
-	printf("\nÇëÄúÏÈµÇÂ¼:");
-	printf("\nÇëÊäÈëÓÃ»§Ãû(½ö°üº¬×ÖÄ¸¡¢Êı×Ö»òÁ½Õß×éºÏ)£º");
-	gets(userName);
-	printf("\nÇëÊäÈëÃÜÂë(½ö°üº¬×ÖÄ¸¡¢Êı×Ö»òÁ½Õß×éºÏ)£º");
-	fflush(stdin);
-	gets(password);
-	fflush(stdin);
+	do
+	{
+		logMenu();
+		printf("\tè¯·æ‚¨å…ˆç™»å½•:\n");
+		printf("------------------------------------------------------------------------");
+		printf("\tè¯·è¾“å…¥ç”¨æˆ·å(ä»…åŒ…å«å­—æ¯ã€æ•°å­—æˆ–ä¸¤è€…ç»„åˆ,ç”¨æˆ·åä½æ•°å°äº8ä½)ï¼š\n");
+		//gets(userName);
+		fgets(userName, 21, stdin);  //æˆªå–è¾“å…¥çš„20ä½
+		//printf("%d", strlen(userName));
+		userName[strlen(userName) - 1] = '\0';
+		printf("------------------------------------------------------------------------");
+		printf("\nè¯·è¾“å…¥å¯†ç (ä»…åŒ…å«å­—æ¯ã€æ•°å­—æˆ–ä¸¤è€…ç»„åˆ)ï¼š\n");
+		fflush(stdin);
+
+		/*char c;
+		for (int i = 0; i < 100; i++)
+		{
+			c = _getch();
+			if (c == 13)
+			{
+				password[i] = '\0';
+				break;
+			}
+			if ((c <= 90 && c >= 65) || (c >= 97 && c <= 122) || (c >= 48 || c <= 57))
+			{
+				printf("*");
+			}
+			password[i] = c;
+		}*/
+
+		/*char c;
+		int n = 0;
+		do
+		{
+		c = _getch();
+		if (c != '\n' && c != '\r' && c != 127)
+		{
+			password[n] = c;
+			printf("*");
+			n++;
+		}
+		else if ((c != '\n' || c!= '\r') && c != 127)
+		{
+		if (n > 0)
+		{
+			n--;
+			printf("\b \b");
+		}
+		}
+		} while ((c != '\n' || c != '\r') &&  c!=127);
+		password[n] = '\0';*/
+
+		//åˆ¤æ–­å¯†ç 
+		judgePasswd(password);
+		
+		fflush(stdin);
+
+		userNameLen = strlen(userName);
+		passwordLen = strlen(password);
+		if (userNameLen > 8 || userNameLen <= 0)
+		{
+			system("cls");
+			printf("\næ‚¨è¾“å…¥çš„ç”¨æˆ·åä½æ•°æœ‰è¯¯ï¼è¯·é‡æ–°ç¡®å®š\n");
+
+		}
+		if (passwordLen > 8 || passwordLen <= 0)
+		{
+			system("cls");
+			printf("\næ‚¨è¾“å…¥çš„å¯†ç ä½æ•°æœ‰è¯¯ï¼è¯·é‡æ–°ç¡®å®š\n");
+		}
+		count++;
+
+		printf("\n%s ", userName);
+		printf("%s ", password);
+		icountu = travUserMesg(userName);
+		icountp = travUserMesg(password);
 	
-	userNameLen = strlen(userName);
-	passwordLen = strlen(password);
-	if (userNameLen > 8)
-	{
-		system("cls");
-		printf("\nÄúÊäÈëµÄÓÃ»§ÃûÓĞÎó£¡³¬¹ı8Î»£¡ÇëÖØĞÂÊäÈë\n");
-	}
-	if (passwordLen > 8)
-	{
-		system("cls");
-		printf("\nÄúÊäÈëµÄÃÜÂëÓĞÎó£¡³¬¹ı8Î»£¡\n");
-	}
-	count++;
-	if (count > 3)
-	{
-		printf("ÄúÒÑ¾­Êä´íÈı´Î£¬ÏµÍ³½«»áÔÚ5ÃëÖÓºóÍË³ö£¡");
-		Sleep(3000);
-		exit(0);
-	}
-	}while(userNameLen > 8 || passwordLen > 8);
+		if (count >= 3)
+		{
+			printf("æ‚¨å·²ç»è¾“é”™ä¸‰æ¬¡ï¼Œç³»ç»Ÿå°†ä¼šåœ¨3ç§’é’Ÿåé€€å‡ºï¼");
+			Sleep(3000);
+			exit(0);
+		}
+	} while (userNameLen > 8 || passwordLen > 8 || userNameLen <= 0 || passwordLen <= 0 || icountu != 1 || icountp != 1);
 
 
-	travUserMesg(userName);
 	strcat(allMessge, userName);
 	strcat(allMessge, ":");
-	travUserMesg(password);
 	strcat(allMessge, password);
 
 	plogM->headFlag[0] = 1;
@@ -78,47 +135,59 @@ logM *logToSystem()
 }
 
 
-void manageMenu()			//ÏµÍ³¹ÜÀí²Ëµ¥
+void manageMenu()			//ç³»ç»Ÿç®¡ç†èœå•
 {
-	printf("1.ÓÃ»§¹ÜÀí\n");
-	printf("2.½ÇÉ«¹ÜÀí\n");
-	printf("3.È¨ÏŞ¹ÜÀí\n");
-	printf("0.ÍË ³ö\n");
+	printf("------------------------------------------------------------------------\n");
+	printf("\t\t**** ç”¨æˆ·ç®¡ç†ç³»ç»Ÿ ****\n");
+	printf("------------------------------------------------------------------------\n");
+	printf("\t\t1.ç”¨æˆ·ç®¡ç†\n");
+	printf("\t\t2.è§’è‰²ç®¡ç†\n");
+	printf("\t\t3.æƒé™ç®¡ç†\n");
+	printf("\t\t0.é€€ å‡º\n");
+	printf("------------------------------------------------------------------------\n");
+
 }
 
-void userManageMenu()			//ÓÃ»§¹ÜÀí²Ëµ¥
+void userManageMenu()			//ç”¨æˆ·ç®¡ç†èœå•
 {
-	printf("1.Ôö¼ÓÓÃ»§.\n");
-	printf("2.É¾³ıÓÃ»§.\n");
-	printf("3.ĞŞ¸ÄÓÃ»§.\n");
-	printf("4.²éÑ¯ÓÃ»§.\n");
-	printf("0.ÍË ³ö.\n");
+	printf("------------------------------------------------------------------------\n");
+	printf("\t\t\t  **** ç”¨æˆ·ç®¡ç†ç³»ç»Ÿ ****\n");
+	printf("------------------------------------------------------------------------\n");
+	printf("\t----ç”¨æˆ·ç®¡ç†\n");
+	printf("------------------------------------------------------------------------\n");
+	printf("\t\t1.å¢åŠ ç”¨æˆ·.\n");
+	printf("\t\t2.åˆ é™¤ç”¨æˆ·.\n");
+	printf("\t\t3.ä¿®æ”¹ç”¨æˆ·.\n");
+	printf("\t\t4.æŸ¥è¯¢ç”¨æˆ·.\n");
+	printf("\t\t0.é€€ å‡º.\n");
+	printf("------------------------------------------------------------------------\n");
 }
 
-void roleManageMenu()			//½ÇÉ«¹ÜÀí²Ëµ¥
+void roleManageMenu()			//è§’è‰²ç®¡ç†èœå•
 {
-	printf("1.Ôö¼Ó½ÇÉ«.\n");
-	printf("2.É¾³ı½ÇÉ«.\n");
-	printf("3.ĞŞ¸Ä½ÇÉ«.\n");
-	printf("4.²éÑ¯½ÇÉ«.\n");
-	printf("0.ÍË ³ö.\n");
+	printf("1.å¢åŠ è§’è‰².\n");
+	printf("2.åˆ é™¤è§’è‰².\n");
+	printf("3.ä¿®æ”¹è§’è‰².\n");
+	printf("4.æŸ¥è¯¢è§’è‰².\n");
+	printf("0.é€€ å‡º.\n");
 }
 
-void permissionManageMenu()		//È¨ÏŞ¹ÜÀí²Ëµ¥
+void permissionManageMenu()		//æƒé™ç®¡ç†èœå•
 {
-	printf("1.ĞŞ¸ÄÈ¨ÏŞ.\n");
-	printf("2.²éÑ¯È¨ÏŞ.\n");
-	printf("0.ÍË ³ö.\n");
+	printf("1.ä¿®æ”¹æƒé™.\n");
+	printf("2.æŸ¥è¯¢æƒé™.\n");
+	printf("0.é€€ å‡º.\n");
 }
 
 void userAllMessageMenu()
 {
-	printf("1.ÓÃ»§Ãû.\n");
-	printf("2.µç »°.\n");
-	printf("4.ÓÊ Ïä.\n");
-	printf("5.Ö°Î».\n");
-	printf("6.´´½¨Õß.\n");
-	printf("7.´´½¨Ê±¼ä.\n");
-	printf("8.½ÇÉ«.\n");
-	printf("0.ÍË ³ö.\n");
+	printf("1.ç”¨æˆ·å.\n");
+	printf("2.ç”µ è¯.\n");
+	printf("4.é‚® ç®±.\n");
+	printf("5.èŒä½.\n");
+	printf("6.åˆ›å»ºè€….\n");
+	printf("7.åˆ›å»ºæ—¶é—´.\n");
+	printf("8.è§’è‰².\n");
+	printf("0.é€€ å‡º.\n");
 }
+

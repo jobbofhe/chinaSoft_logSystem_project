@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 #include<stdlib.h>
+#include<conio.h>
 
 #include<winsock2.h>				//socket()相关头文件
 #pragma comment(lib, "ws2_32.lib")  //socket()相关库
@@ -43,10 +44,9 @@ void permissionManageMenu();	//权限管理菜单
 /******四级级菜单******/
 void userAllMessageMenu();
 
-
 /***************************************************************************/
 //功能函数区
-void travUserMesg(char *userMessage);				//遍历用户信息
+int travUserMesg(char *userMessage);				//遍历用户信息
 void initStruct(logM * plogM);						//初始化用户登录信息结构体
 SOCKET  connectToServer();							//连接到服务器
 void processServerReMsg(logM *receiveServerMsg, SOCKET sockClient);		//处理服务器返回值信息
@@ -71,3 +71,9 @@ void listExistRole(SOCKET sockClient);		//列出当前所有角色名
 void changePermission(SOCKET sockClient);			//修改权限
 void queryPermission(SOCKET sockClient);			//查询权限
 void listExistPermission();		//列出当前所有权限名
+
+
+void judgePasswd(char *password);
+void userManage(SOCKET sockClient);
+void roleManage(SOCKET sockClient);
+void permissionManage(SOCKET sockClient);
