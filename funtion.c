@@ -1,3 +1,6 @@
+ï»¿
+//12346
+
 #include "func.h"
 #include<stdio.h>
 #include<stdlib.h>
@@ -5,70 +8,65 @@
 
 
 /********************************************************************
-*µÇÂ¼µ½·şÎñÆ÷
+*ç™»å½•åˆ°æœåŠ¡å™¨
 ********************************************************************/
 SOCKET  connectToServer()
 {
 	WSADATA wsaData;
-	SOCKET sockClient;			//¿Í»§¶ËSocket
-	SOCKADDR_IN addrServer;		//·şÎñ¶ËµØÖ·
+	SOCKET sockClient;			//å®¢æˆ·ç«¯Socket
+	SOCKADDR_IN addrServer;		//æœåŠ¡ç«¯åœ°å€
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
 
-	sockClient = socket(AF_INET, SOCK_STREAM, 0);	//ĞÂ½¨¿Í»§¶Ësocket
+	sockClient = socket(AF_INET, SOCK_STREAM, 0);	//æ–°å»ºå®¢æˆ·ç«¯socket
 
-	//¶¨ÒåÒªÁ¬½ÓµÄ·şÎñ¶ËµØÖ·
-	addrServer.sin_addr.S_un.S_addr = inet_addr("192.168.1.19"); 
+	//å®šä¹‰è¦è¿æ¥çš„æœåŠ¡ç«¯åœ°å€
+	addrServer.sin_addr.S_un.S_addr = inet_addr("192.168.1.53"); 
 	addrServer.sin_family = AF_INET;
-	addrServer.sin_port = htons(10002);		//Á¬½Ó¶Ë¿Ú10002
+	addrServer.sin_port = htons(10002);		//è¿æ¥ç«¯å£10002
 
-	//Á¬½Óµ½·şÎñ¶Ë
-	int ret = connect(sockClient, (SOCKADDR*)&addrServer, sizeof(SOCKADDR));
-	if (ret)
-	{
-		printf("·şÎñÆ÷Á¬½Ó´íÎó£¡Çë¼ì²éÍøÂçºóÖØÆô¡£\n");
-		Sleep(3000);
-		exit(-1);
-	}
+	//è¿æ¥åˆ°æœåŠ¡ç«¯
+	connect(sockClient, (SOCKADDR*)&addrServer, sizeof(SOCKADDR));
+
 	return sockClient;
 }
 
 /************************************************************************/
-/* ±éÀúÓÃ»§ĞÅÏ¢ÅĞ¶Ï·Ç×ÖÄ¸·ÇÊı×Ö                                                                     */
+/* éå†ç”¨æˆ·ä¿¡æ¯åˆ¤æ–­éå­—æ¯éæ•°å­—                                                                     */
 /************************************************************************/
-int travUserMesg(char *userMessage)    //±éÀúÓÃ»§ĞÅÏ¢
+int travUserMesg(char *userMessage)    //éå†ç”¨æˆ·ä¿¡æ¯
 {
 	if (userMessage == NULL)
 	{
-		printf("ÓÃ»§ĞÅÏ¢Ö¸ÕëÎª¿Õ£¡\n");
+		printf("ç”¨æˆ·ä¿¡æ¯æŒ‡é’ˆä¸ºç©ºï¼\n");
 		
 		return -1;
 	}
 
-	while (*userMessage != '\0')							//±éÀúÓÃ»§Ãû
+	while (*userMessage != '\0')							//éå†ç”¨æˆ·å
 	{
-		if (isalpha(*userMessage) || isdigit(*userMessage)) //ÅĞ¶Ï×ÖÄ¸ºÍÊı×Ö
+		if (isalpha(*userMessage) || isdigit(*userMessage)) //åˆ¤æ–­å­—æ¯å’Œæ•°å­—
 		{
 			userMessage++;
 		}
 		else
 		{
 			//system("cls");
-			printf("ÓÃ»§ĞÅÏ¢½öÏŞÓÚ´¿Êı×Ö¡¢´¿×ÖÄ¸»òÁ½Õß×éºÏ!");
+			printf("ç”¨æˆ·ä¿¡æ¯ä»…é™äºçº¯æ•°å­—ã€çº¯å­—æ¯æˆ–ä¸¤è€…ç»„åˆ!");
 			return -1;
 		}
 	}
 	return 1;
 }
 
-/*Õâ¶Î´úÂëÓÉÓÚ³öÏÖµİ¹éµÄµÍĞ§ÂÊ±»ÉáÆú
+/*è¿™æ®µä»£ç ç”±äºå‡ºç°é€’å½’çš„ä½æ•ˆç‡è¢«èˆå¼ƒ
 void judgeUserMessageOverEight(int userMessageLen)
 {
 	int choose = 0;
 	int length = userMessageLen;
 	if (length > 8)
 	{
-		printf("\nÄúÊäÈëµÄĞÅÏ¢ÓĞÎó£¡³¬¹ı8Î»£¡\n");
-		printf("\nÇëÑ¡Ôñ£º°´1·µ»ØÖ÷½çÃæ¡£°´ÈÎÒâ¼üÍË³ö£¡");
+		printf("\næ‚¨è¾“å…¥çš„ä¿¡æ¯æœ‰è¯¯ï¼è¶…è¿‡8ä½ï¼\n");
+		printf("\nè¯·é€‰æ‹©ï¼šæŒ‰1è¿”å›ä¸»ç•Œé¢ã€‚æŒ‰ä»»æ„é”®é€€å‡ºï¼");
 		fflush(stdin);
 		scanf("%d", &choose);
 		fflush(stdin);
@@ -86,7 +84,7 @@ void judgeUserMessageOverEight(int userMessageLen)
 */
 
 /********************************************************************
-*³õÊ¼»¯¸ø·şÎñ·¢ËÍÏûÏ¢µÄ½á¹¹Ìå
+*åˆå§‹åŒ–ç»™æœåŠ¡å‘é€æ¶ˆæ¯çš„ç»“æ„ä½“
 ********************************************************************/
 void initStruct(logM * plogM)
 {
@@ -94,7 +92,7 @@ void initStruct(logM * plogM)
 	memset(plogM->userMessage, 0, sizeof(plogM->userMessage));
 }
 /************************************************************************/
-/* ³õÊ¼»¯ÓÃ»§ËùÓĞĞÅÏ¢½á¹¹Ìå                                                                     */
+/* åˆå§‹åŒ–ç”¨æˆ·æ‰€æœ‰ä¿¡æ¯ç»“æ„ä½“                                                                     */
 /************************************************************************/
 void initUserALLMsgStruct(userMsg * pUserMsg)
 {
@@ -109,64 +107,68 @@ void initUserALLMsgStruct(userMsg * pUserMsg)
 	memset(pUserMsg->password, 0, sizeof(pUserMsg->password));
 }
 /************************************************************************/
-/* ´¦Àí·şÎñÆ÷·µ»ØµÄheadflagĞÅÏ¢£¬¸ù¾İ·µ»ØÏûÏ¢È·ÈÏ´¦Àí·½·¨                              */
+/* å¤„ç†æœåŠ¡å™¨è¿”å›çš„headflagä¿¡æ¯ï¼Œæ ¹æ®è¿”å›æ¶ˆæ¯ç¡®è®¤å¤„ç†æ–¹æ³•                              */
 /************************************************************************/
 void processServerReMsg(logM *receiveServerMsg, SOCKET sockClient)
 {
 	logM *pSend = receiveServerMsg;
 	SOCKET sok = sockClient;
 
-	if (1 == pSend->headFlag[0])  //ÅĞ¶Ï·şÎñÆ÷´«»ØÏûÏ¢
+	if (1 == pSend->headFlag[0])  //åˆ¤æ–­æœåŠ¡å™¨ä¼ å›æ¶ˆæ¯
 	{
 		system("cls");
-		printf("\n\n\n\n               µÇÂ¼³É¹¦");
+		//system("color 5d");
+		printf("\n\n\n\n               ç™»å½•æˆåŠŸâ€¦â€¦");
 		Sleep(2000);
 		system("cls");
 
-		int choose = -1;       //µÇÂ½³É¹¦Ö®ºóµ÷ÓÃÏµÍ³¹ÜÀí²Ëµ¥µÄËùÓĞ¹¦ÄÜ
-		while (choose)			//Ñ­»·ÓÃ»§Ñ¡Ôñ 1.ÓÃ»§¹ÜÀí  2.½ÇÉ«¹ÜÀí  3.È¨ÏŞ¹ÜÀí 
+		int choose = -1;       //ç™»é™†æˆåŠŸä¹‹åè°ƒç”¨ç³»ç»Ÿç®¡ç†èœå•çš„æ‰€æœ‰åŠŸèƒ½
+		while (choose)			//å¾ªç¯ç”¨æˆ·é€‰æ‹© 1.ç”¨æˆ·ç®¡ç†  2.è§’è‰²ç®¡ç†  3.æƒé™ç®¡ç† 
 		{
 			manageMenu();
 			fflush(stdin);
-
-			printf("\nÇëÑ¡Ôñ¹¦ÄÜ:");
+			printf("\n------------------------------------------------------------------------\n");
+			printf("è¯·é€‰æ‹©åŠŸèƒ½:");
 			scanf("%d", &choose);
 			if (getchar() != '\n')
 			{
-				printf("ÇëÖØĞÂÊäÈëÏÂÁĞÑ¡Ïî±àºÅ£º\n");
+				printf("------------------------------------------------------------------------\n");
+				printf("è¯·é‡æ–°è¾“å…¥ä¸‹åˆ—é€‰é¡¹ç¼–å·ï¼š\n");
 				continue;
 			}
-
-			if (choose == 1 && strncmp(userInfo, "0000", 4))		//ÓÃ»§¹ÜÀí
+			system("cls");
+			if (choose == 1)		//ç”¨æˆ·ç®¡ç†
 			{
 				userManage(sok);
 			}
 		
-			else if (2 == choose && strncmp(userInfo+ 4, "0000", 4))   //½ÇÉ«¹ÜÀí
+			else if (2 == choose)   //è§’è‰²ç®¡ç†
 			{
 				roleManage(sok);
 			}
 
-			else if (3 == choose && strncmp(userInfo + 8, "00", 2))
+			else if (3 == choose)
 			{
 				permissionManage(sok);
 			}
 			else if (0 != choose)
 			{
-				printf("ÇëÖØĞÂÊäÈëÏÂÁĞÑ¡Ïî±àºÅ£º\n");
+				printf("------------------------------------------------------------------------\n");
+				printf("è¯·é‡æ–°è¾“å…¥ä¸‹åˆ—é€‰é¡¹ç¼–å·ï¼š\n");
+			}
 			}
 		}
-	}
-	else  //·şÎñÆ÷´«»ØÏûÏ¢Ê§°Ü
+	else  //æœåŠ¡å™¨ä¼ å›æ¶ˆæ¯å¤±è´¥
 	{
-		printf("\nµÇÂ¼Ê§°Ü£¡");
+		printf("------------------------------------------------------------------------\n");
+		printf("\nç™»å½•å¤±è´¥ï¼");
 		Sleep(2000);
 		exit(0);
 	}
 }
 
 
-////////////////////////////////ÓÃ»§¹ÜÀí//////////////////////////////////
+////////////////////////////////ç”¨æˆ·ç®¡ç†//////////////////////////////////
 void addUser(SOCKET sockClient)
 {
 	SOCKET sok = sockClient;
@@ -174,18 +176,19 @@ void addUser(SOCKET sockClient)
 	char *allMsg = (char *)calloc(1024, sizeof(char));
 
 	logM *pRe = (logM *)calloc(1, sizeof(logM));		
-	//µÇÂ½Ö®ºó·şÎñÆ÷·µ»Ø¸ø¿Í»§¶Ëheadflag[1]=1;¸ø·şÎñÆ÷·¢ËÍÔö¼ÓµÄÓÃ»§µÄĞÅÏ¢
+	//ç™»é™†ä¹‹åæœåŠ¡å™¨è¿”å›ç»™å®¢æˆ·ç«¯headflag[1]=1;ç»™æœåŠ¡å™¨å‘é€å¢åŠ çš„ç”¨æˆ·çš„ä¿¡æ¯
 
-	logM *pFromServer = (logM *)calloc(1, sizeof(logM)); //ÁÙÊ±±äÁ¿£¬½ÓÊÜ·şÎñÆ÷·µ»ØµÄÓÃ»§Ìí¼Ó³É¹¦Óë·ñĞÅÏ¢
+	logM *pFromServer = (logM *)calloc(1, sizeof(logM)); //ä¸´æ—¶å˜é‡ï¼Œæ¥å—æœåŠ¡å™¨è¿”å›çš„ç”¨æˆ·æ·»åŠ æˆåŠŸä¸å¦ä¿¡æ¯
 
 	char *pum = NULL;
 	initUserALLMsgStruct(pUserMsg);
 
-	pRe->headFlag[0] = 2;	//ÓÃ»§¹ÜÀí
-	pRe->headFlag[1] = 1;	//Ôö¼ÓÓÃ»§µÄ±êÖ¾
+	pRe->headFlag[0] = 2;	//ç”¨æˆ·ç®¡ç†
+	pRe->headFlag[1] = 1;	//å¢åŠ ç”¨æˆ·çš„æ ‡å¿—
 	while (1)
 	{
-		printf("\n\n\n\n       ÇëÊäÈëÓÃ»§Ãû:");
+		printf("\n------------------------------------------------------------------------");
+		printf("\n       è¯·è¾“å…¥ç”¨æˆ·å:");
 		scanf("%s", pUserMsg->userName);
 		pum = pUserMsg->userName;
 		if (1 == travUserMesg(pum))
@@ -196,7 +199,8 @@ void addUser(SOCKET sockClient)
 		}
 		else
 		{
-			printf("ÊäÈë¸ñÊ½²»¶Ô£¬ÇëÖØĞÂÊäÈë£º\n");
+			printf("\n------------------------------------------------------------------------\n");
+			printf("è¾“å…¥æ ¼å¼ä¸å¯¹ï¼Œè¯·é‡æ–°è¾“å…¥ï¼š\n");
 		}
 		
 		system("cls");
@@ -204,7 +208,7 @@ void addUser(SOCKET sockClient)
 	int index;
 	while (1)
 	{
-		printf("\n\n\n\n       ÇëÊäÈëµç»°:");
+		printf("\n       è¯·è¾“å…¥ç”µè¯:");
 		scanf("%s", pUserMsg->del);
 		if (strlen(pUserMsg->del) == 11)
 		{
@@ -227,12 +231,12 @@ void addUser(SOCKET sockClient)
 			}
 			else
 			{
-				printf("ÊäÈë¸ñÊ½²»¶Ô£¬ÇëÖØĞÂÊäÈë£º\n");
+				printf("è¾“å…¥æ ¼å¼ä¸å¯¹ï¼Œè¯·é‡æ–°è¾“å…¥ï¼š\n");
 			}
 		}
 		else
 		{
-			printf("ÊäÈë¸ñÊ½²»¶Ô£¬ÇëÖØĞÂÊäÈë£º\n");
+			printf("è¾“å…¥æ ¼å¼ä¸å¯¹ï¼Œè¯·é‡æ–°è¾“å…¥ï¼š\n");
 		}
 		
 		system("cls");
@@ -240,7 +244,7 @@ void addUser(SOCKET sockClient)
 	
 	while (1)
 	{
-		printf("\n\n\n\n       ÇëÊäÈëÓÊÏä:");
+		printf("\n       è¯·è¾“å…¥é‚®ç®±:");
 		scanf("%s", pUserMsg->mail);
 		char *p = strstr(pUserMsg->mail, "@");
 		if (p)
@@ -255,14 +259,13 @@ void addUser(SOCKET sockClient)
 		}
 		else
 		{
-			printf("ÊäÈë¸ñÊ½²»¶Ô£¬ÇëÖØĞÂÊäÈë£º\n");
+			printf("è¾“å…¥æ ¼å¼ä¸å¯¹ï¼Œè¯·é‡æ–°è¾“å…¥ï¼š\n");
 		}
 		system("cls");
 	}
-	
 	while (1)
 	{
-		printf("\n\n\n\n       ÇëÊäÈëÖ°Î»:");
+		printf("\n       è¯·è¾“å…¥èŒä½:");
 		scanf("%s", pUserMsg->job);
 		int length = strlen(pUserMsg->job);
 		if (length > 0 && length < 20)
@@ -283,76 +286,66 @@ void addUser(SOCKET sockClient)
 		}
 		else
 		{
-			printf("ÊäÈë¸ñÊ½²»¶Ô£¬ÇëÖØĞÂÊäÈë£º\n");
+			printf("è¾“å…¥æ ¼å¼ä¸å¯¹ï¼Œè¯·é‡æ–°è¾“å…¥ï¼š\n");
 		}
 		
 		system("cls");
 	}
 	
 
-	/*printf("\n\n\n\n       ÇëÊäÈë´´½¨Õß:");
-	scanf("%s", pUserMsg->createPerson);*/
-	
-	//»ñÈ¡´´½¨Õß
-	strcat(allMsg, userInfo + 10);
+	printf("\n       è¯·è¾“å…¥åˆ›å»ºè€…:");
+	scanf("%s", pUserMsg->createPerson);
+
+	strcat(allMsg, pUserMsg->createPerson);
 	strcat(allMsg, ":");
 	system("cls");
 
-	
-	
-	//printf("\n\n\n\n       ÇëÊäÈë´´½¨Ê±¼ä:");
-	//scanf("%s", pUserMsg->createTime);
-	//»ñÈ¡´´½¨Ê±¼ä
-	getSystemTime(pUserMsg->createTime);
+	printf("\n       è¯·è¾“å…¥åˆ›å»ºæ—¶é—´:");
+	scanf("%s", pUserMsg->createTime);
+
 	strcat(allMsg, pUserMsg->createTime);
 	strcat(allMsg, ":");
 	system("cls");
 
-	logM *roleList = listExistRole(sok);
-	if (getNameOrRoleInput(roleList->userMessage, pUserMsg->role) == 1)
-	{
-		strcat(allMsg, pUserMsg->role);
-		strcat(allMsg, ":");
-	}
+	listExistRole(sok);
+	printf("\n       è¯·è¾“å…¥è§’è‰²:");
+	fflush(stdin);
+	scanf("%s", pUserMsg->role);
 
-	char password[10] = { 0 };
-	while (1)
-	{
-		printf("\n\n\n\n       ÇëÊäÈëÃÜÂë:");
-		judgePasswd(password);
-		pum = password;
-		if (travUserMesg(pum) == 1)
-		{
-			printf("     ÇëÔÙ´ÎÈ·ÈÏÃÜÂë:");
-			judgePasswd(pUserMsg->password);
-			pum = pUserMsg->password;
-			if (travUserMesg(pum) == 1)
-			{
-				if (strcmp(password, pUserMsg->password) == 0)
-				{
-					strcat(allMsg, pUserMsg->password);
-					break;
-				}
-			}
-		}
-	}
-	//system("cls");
+	strcat(allMsg, pUserMsg->role);
+	strcat(allMsg, ":");
+	system("cls");
+
+	printf("\n        è¯·è¾“å…¥å¯†ç :");
+	scanf("%s", pUserMsg->password);
+	pum = pUserMsg->password;
+	travUserMesg(pum);
+	strcat(allMsg, pUserMsg->password);
+	system("cls");
 
 	strcpy(pRe->userMessage, allMsg);
 
-	printf("\n·¢ËÍÓÃ»§ĞÅÏ¢È·ÈÏ\nÔö¼ÓÓÃ»§±êÊ¶£ºheadFlag[1]:%d\nÓÃ»§ĞÅÏ¢£º%s\n", pRe->headFlag[1], pRe->userMessage);
-	send(sockClient, (char *)pRe, sizeof(*pRe), 0);			//·¢ËÍÊı¾İ
+	//printf("\nå‘é€ç”¨æˆ·ä¿¡æ¯ç¡®è®¤\nå¢åŠ ç”¨æˆ·æ ‡è¯†ï¼šheadFlag[1]:%d\nç”¨æˆ·ä¿¡æ¯ï¼š%s\n", pRe->headFlag[1], pRe->userMessage);
+	send(sockClient, (char *)pRe, sizeof(*pRe), 0);			//å‘é€æ•°æ®
 
-	recv(sockClient, (char *)pFromServer, sizeof(*pFromServer), 0);			//½ÓÊÜ·şÎñÆ÷·µ»ØµÄÊı¾İ
-	printf("received server :%d %s\n", pFromServer->headFlag[1], pFromServer->userMessage);
+	recv(sockClient, (char *)pFromServer, sizeof(*pFromServer), 0);			//æ¥å—æœåŠ¡å™¨è¿”å›çš„æ•°æ®
+	//printf("received server :%d %s\n", pFromServer->headFlag[1], pFromServer->userMessage);
 
 	if (1 == pFromServer->headFlag[1])
 	{
-		printf("Ìí¼ÓÓÃ»§³É¹¦!\n");
+		printf("\n\n------------------------------------------------------------------------\n");
+		printf("--æ·»åŠ ç”¨æˆ·æˆåŠŸ!å›è½¦é”®è¿”å›èœå•\n");
+		getchar();
+		getchar();
+		system("cls");
 	}
 	else
 	{
-		printf("Ìí¼ÓÓÃ»§Ê§°Ü£¡Çë¼ì²éÄúµÄÊäÈë£¬ÖØĞÂÌí¼Ó£¡\n");
+		printf("\n\n------------------------------------------------------------------------\n");
+		printf("â– --æ·»åŠ ç”¨æˆ·å¤±è´¥ï¼è¯·æ£€æŸ¥æ‚¨çš„è¾“å…¥ï¼Œé‡æ–°æ·»åŠ ï¼\nå›è½¦é”®è¿”å›èœå•ã€‚");
+		getchar();
+		getchar();
+		system("cls");
 	}
 
 	free(pUserMsg);
@@ -363,34 +356,70 @@ void addUser(SOCKET sockClient)
 void deleteUser(SOCKET sockClient)
 {
 	SOCKET soc = sockClient;
-	logM *plogM = (logM *)calloc(1, sizeof(logM));		//·¢ËÍÏò·şÎñÆäÇëÇó²éÑ¯µÄÏûÏ¢
-	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//½ÓÊÜ·şÎñÆ÷»Ø´«µÄ×´Ì¬ĞÅÏ¢ºÍÓÃ»§ĞÅÏ¢
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//å‘é€å‘æœåŠ¡å…¶è¯·æ±‚æŸ¥è¯¢çš„æ¶ˆæ¯
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//æ¥å—æœåŠ¡å™¨å›ä¼ çš„çŠ¶æ€ä¿¡æ¯å’Œç”¨æˆ·ä¿¡æ¯
 
-	logM *nameList = listExistUserName(soc);
-	char queryName[20] = { 0 };
-	if (getNameOrRoleInput(nameList->userMessage, queryName) == 1)
-	{
-		free(nameList);
-		strcpy(plogM->userMessage, queryName);
-	}
-
-		
 	plogM->headFlag[0] = 2;
-	plogM->headFlag[1] = 2;
-		send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//·¢ËÍÊı¾İ
-		printf("\n·¢ËÍÓÃ»§ÃûÈ·ÈÏheadFlag[1]:%d %s\n", plogM->headFlag[1], plogM->userMessage);
+	plogM->headFlag[1] = 4;	
+	plogM->headFlag[2] = 1;	//ç”³è¯·æŸ¥è¯¢æ ‡å¿—
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//å‘é€æ•°æ®
 
-		recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);		//½ÓÊÜ·şÎñÆ÷·µ»ØµÄÊı¾İ
-		printf("received server :%d %s\n", plogMRe->headFlag[1], plogMRe->userMessage);
+	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);		//æ¥å—æœåŠ¡å™¨è¿”å›çš„æ•°æ®
+
+	if (1 == plogMRe->headFlag[2])
+	{
+		//åˆ é™¤ç”¨æˆ·å…·ä½“æ“ä½œ
+		//åˆ—å‡ºæ‰€æœ‰ç”¨æˆ·å
+		printf("------------------------------------------------------------------------\n");
+		printf("\t\t\t  **** ç”¨æˆ·ç®¡ç†ç³»ç»Ÿ ****\n");
+		printf("------------------------------------------------------------------------\n");
+		printf("\t----ç”¨æˆ·ç®¡ç†\n");
+		printf("\t-------åˆ é™¤ç”¨æˆ·\n");
+		printf("------------------------------------------------------------------------\n\n");
+
+		listExistUserName(plogMRe);
+		//è¾“å…¥è¦åˆ é™¤çš„ç”¨æˆ·åï¼Œåˆ—å‡ºè¯¥ç”¨æˆ·çš„è¯¦ç»†ä¿¡æ¯
+		char queryName[20] = { 0 };
+		plogM->headFlag[1] = 2;
+		memset(plogMRe, 0, sizeof(logM));
+
+		printf("\n------------------------------------------------------------------------\n");
+		printf("è¯·è¾“å…¥è¦åˆ é™¤çš„ç”¨æˆ·åï¼š");
+		scanf("%s", queryName);
+		strcpy(plogM->userMessage, queryName);
+
+		send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//å‘é€æ•°æ®
+		//printf("\nå‘é€ç”¨æˆ·åç¡®è®¤headFlag[1]:%d %s\n", plogM->headFlag[1], plogM->userMessage);
+
+		recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);		//æ¥å—æœåŠ¡å™¨è¿”å›çš„æ•°æ®
+		//printf("received server :%d %s\n", plogMRe->headFlag[1], plogMRe->userMessage);
 
 		if (2 == plogMRe->headFlag[1])
 		{
-			printf("É¾³ı³É¹¦£¡\n");
+			printf("\n------------------------------------------------------------------------\n");
+			printf("åˆ é™¤æˆåŠŸï¼å›è½¦é”®è¿”å›èœå•\n");
+			getchar();
+			getchar();
+			system("cls");
 		}
 		else
 		{
-			printf("É¾³ıÊ§°Ü£¡Çë¼ì²éÄúµÄ²Ù×÷£¡\n");
+			printf("\n------------------------------------------------------------------------\n");
+			printf("åˆ é™¤å¤±è´¥ï¼è¯·æ£€æŸ¥æ‚¨çš„æ“ä½œï¼å›è½¦é”®è¿”å›èœå•\n\n");
+			getchar();
+			getchar();
+			system("cls");
 		}
+
+	}
+	else
+	{
+		printf("\n------------------------------------------------------------------------\n");
+		printf("è¯·æ±‚å¤±è´¥ï¼å›è½¦é”®è¿”å›èœå•ã€‚\n");
+		getchar();
+		getchar();
+		system("cls");
+	}
 
 	free(plogM);
 	free(plogMRe);
@@ -398,203 +427,116 @@ void deleteUser(SOCKET sockClient)
 void changeUser(SOCKET sockClient)
 {
 	SOCKET soc = sockClient;
-	logM *plogM = (logM *)calloc(1, sizeof(logM));		//·¢ËÍÏò·şÎñÆäÇëÇó²éÑ¯µÄÏûÏ¢
-	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//½ÓÊÜ·şÎñÆ÷»Ø´«µÄ×´Ì¬ĞÅÏ¢ºÍÓÃ»§ĞÅÏ¢
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//å‘é€å‘æœåŠ¡å…¶è¯·æ±‚æŸ¥è¯¢çš„æ¶ˆæ¯
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//æ¥å—æœåŠ¡å™¨å›ä¼ çš„çŠ¶æ€ä¿¡æ¯å’Œç”¨æˆ·ä¿¡æ¯
 
-	userMsg *pUserMsg = (userMsg *)calloc(1, sizeof(userMsg)); //½ÓÊÜÊäÈëµÄĞŞ¸ÄĞÅÏ¢
-	char *allMsg = (char *)calloc(1024, sizeof(char));			//±£´æĞŞ¸ÄĞÅÏ¢£¬
+	userMsg *pUserMsg = (userMsg *)calloc(1, sizeof(userMsg)); //æ¥å—è¾“å…¥çš„ä¿®æ”¹ä¿¡æ¯
+	char *allMsg = (char *)calloc(1024, sizeof(char));			//ä¿å­˜ä¿®æ”¹ä¿¡æ¯ï¼Œ
 
-		//ĞŞ¸ÄÓÃ»§¾ßÌå²Ù×÷
-		//ÁĞ³öËùÓĞÓÃ»§Ãû
-	logM *nameList = listExistUserName(soc);
-	if (getNameOrRoleInput(nameList->userMessage, pUserMsg->userName) == 1)
+	plogM->headFlag[0] = 2;	//ç”¨æˆ·ç®¡ç†æ ‡å¿—
+	plogM->headFlag[1] = 4;	//æŸ¥è¯¢æ ‡å¿—
+	plogM->headFlag[2] = 1;	//ç”³è¯·æŸ¥è¯¢æ ‡å¿—
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//å‘é€è¯·æ±‚æŸ¥è¯¢æ•°æ®
+
+	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);		//æ¥å—æœåŠ¡å™¨è¿”å›çš„æ•°æ®åˆ¤æ–­æ˜¯å¦å¯æŸ¥
+
+	if (1 == plogMRe->headFlag[2])  //å¯ä»¥æŸ¥è¯¢ï¼Œåˆ—å‡ºç”¨æˆ·å
 	{
+		//ä¿®æ”¹ç”¨æˆ·å…·ä½“æ“ä½œ
+		//åˆ—å‡ºæ‰€æœ‰ç”¨æˆ·å
+		printf("------------------------------------------------------------------------\n");
+		printf("\t\t\t  **** ç”¨æˆ·ç®¡ç†ç³»ç»Ÿ ****\n");
+		printf("------------------------------------------------------------------------\n");
+		printf("\t----ç”¨æˆ·ç®¡ç†\n");
+		printf("\t-------ä¿®æ”¹ç”¨æˆ·\n");
+		printf("------------------------------------------------------------------------\n\n");
+		listExistUserName(plogMRe);
+		printf("\n\n------------------------------------------------------------------------\n");
+		//è¾“å…¥è¦ä¿®æ”¹çš„ç”¨æˆ·åï¼Œå’Œä¿®æ”¹ä¿¡æ¯
+		char queryName[20] = { 0 };
+		plogM->headFlag[1] = 3;
+		//memset(plogMRe, 0, sizeof(logM));
+
+		//è¾“å…¥è¦ä¿®æ”¹çš„ç”¨æˆ·å
+		printf("\n       è¯·è¾“å…¥è¦ä¿®æ”¹çš„ç”¨æˆ·å:");
+		scanf("%s", pUserMsg->userName);
 		strcat(allMsg, pUserMsg->userName);
 		strcat(allMsg, ":");
-	}
-		////ÊäÈëÒªĞŞ¸ÄµÄÓÃ»§Ãû£¬ºÍĞŞ¸ÄĞÅÏ¢
-		//char queryName[20] = { 0 };
-		//plogM->headFlag[1] = 3;
-		////memset(plogMRe, 0, sizeof(logM));
-
-		////ÊäÈëÒªĞŞ¸ÄµÄÓÃ»§Ãû
-		//printf("\n\n\n\n       ÇëÊäÈëÒªĞŞ¸ÄµÄÓÃ»§Ãû:");
-		//scanf("%s", pUserMsg->userName);
-		
 		system("cls");
 
-		int index;
-		while (1)
-		{
-			printf("\n\n\n\n       ÇëÊäÈëµç»°:");
-			scanf("%s", pUserMsg->del);
-			if (strlen(pUserMsg->del) == 11)
-			{
-				for (index = 0; index < 11; index++)
-				{
-					if (isdigit(pUserMsg->del[index]))
-					{
-						;
-					}
-					else
-					{
-						break;
-					}
-				}
-				if (index == 11)
-				{
-					strcat(allMsg, pUserMsg->del);
-					strcat(allMsg, ":");
-					break;
-				}
-				else
-				{
-					printf("ÊäÈë¸ñÊ½²»¶Ô£¬ÇëÖØĞÂÊäÈë£º\n");
-				}
-			}
-			else
-			{
-				printf("ÊäÈë¸ñÊ½²»¶Ô£¬ÇëÖØĞÂÊäÈë£º\n");
-			}
+		printf("\n       è¯·è¾“å…¥ç”µè¯:");
+		scanf("%s", pUserMsg->del);
+		strcat(allMsg, pUserMsg->del);
+		strcat(allMsg, ":");
+		system("cls");
 
-			system("cls");
-		}
+		printf("\n       è¯·è¾“å…¥é‚®ç®±:");
+		scanf("%s", pUserMsg->mail);
+		strcat(allMsg, pUserMsg->mail);
+		strcat(allMsg, ":");
+		system("cls");
 
-		while (1)
-		{
-			printf("\n\n\n\n       ÇëÊäÈëÓÊÏä:");
-			scanf("%s", pUserMsg->mail);
-			char *p = strstr(pUserMsg->mail, "@");
-			if (p)
-			{
-				char *tmp = pUserMsg->mail + strlen(pUserMsg->mail) - 4;
-				if (strncmp(tmp, ".com", 4) == 0)
-				{
-					strcat(allMsg, pUserMsg->mail);
-					strcat(allMsg, ":");
-					break;
-				}
-			}
-			else
-			{
-				printf("ÊäÈë¸ñÊ½²»¶Ô£¬ÇëÖØĞÂÊäÈë£º\n");
-			}
-			system("cls");
-		}
+		printf("\n       è¯·è¾“å…¥èŒä½:");
+		scanf("%s", pUserMsg->job);
 
-		while (1)
-		{
-			printf("\n\n\n\n       ÇëÊäÈëÖ°Î»:");
-			scanf("%s", pUserMsg->job);
-			int length = strlen(pUserMsg->job);
-			if (length > 0 && length < 20)
-			{
-				for (index = 0; index < length; index++)
-				{
-					if (!isalpha(pUserMsg->job[index]))
-					{
-						break;
-					}
-				}
-				if (index == length)
-				{
-					strcat(allMsg, pUserMsg->job);
-					strcat(allMsg, ":");
-					break;
-				}
-			}
-			else
-			{
-				printf("ÊäÈë¸ñÊ½²»¶Ô£¬ÇëÖØĞÂÊäÈë£º\n");
-			}
+		strcat(allMsg, pUserMsg->job);
+		strcat(allMsg, ":");
+		system("cls");
 
-			system("cls");
-		}
-
-		/*printf("\n\n\n\n       ÇëÊäÈë´´½¨Õß:");
+		printf("\n       è¯·è¾“å…¥åˆ›å»ºè€…:");
 		scanf("%s", pUserMsg->createPerson);
 
 		strcat(allMsg, pUserMsg->createPerson);
 		strcat(allMsg, ":");
 		system("cls");
 
-		printf("\n\n\n\n       ÇëÊäÈë´´½¨Ê±¼ä:");
+		printf("\n       è¯·è¾“å…¥åˆ›å»ºæ—¶é—´:");
 		scanf("%s", pUserMsg->createTime);
 
 		strcat(allMsg, pUserMsg->createTime);
 		strcat(allMsg, ":");
-		system("cls");*/
+		system("cls");
 
-		logM *roleList = listExistRole(soc);
-		char *p, *start;
-		while (1)
-		{
-			p = start = roleList->userMessage;
-			printf("       ÇëÊäÈë½ÇÉ«:");
-			scanf("%s", pUserMsg->role);
-			while (*p)
-			{
-				p = strchr(start, ':');
-				if (strncmp(start, pUserMsg->role, p - start) == 0)
-				{
-					strcat(allMsg, pUserMsg->role);
-					strcat(allMsg, ":");
-					free(roleList);
-					//system("cls");
-					break;
-				}
-				p++;
-				start = p;
-			}
-			if (*p)
-			{
-				break;
-			}
-		}
+		printf("\n       è¯·è¾“å…¥è§’è‰²:");
+		scanf("%s", pUserMsg->role);
 
-		char *pum;
-		char password[10] = { 0 };
-		while (1)
-		{
-			printf("\n\n\n\n       ÇëÊäÈëÃÜÂë:");
-			memset(password, 0, sizeof(password));
-			judgePasswd(password);
-			pum = password;
-			if (travUserMesg(pum) == 1)
-			{
-				printf("     ÇëÔÙ´ÎÈ·ÈÏÃÜÂë:");
-				memset(pUserMsg->password, 0, sizeof(pUserMsg->password));
-				judgePasswd(pUserMsg->password);
-				pum = pUserMsg->password;
-				if (travUserMesg(pum) == 1)
-				{
-					if (strcmp(password, pUserMsg->password) == 0)
-					{
-						strcat(allMsg, pUserMsg->password);
-						break;
-					}
-				}
-			}
-		}
+		strcat(allMsg, pUserMsg->role);
+		strcat(allMsg, ":");
+		system("cls");
+
+		printf("\n       è¯·è¾“å…¥å¯†ç :");
+		scanf("%s", pUserMsg->password);
+
+		strcat(allMsg, pUserMsg->password);
+		system("cls");
 
 		strcpy(plogMRe->userMessage, allMsg);
 		plogMRe->headFlag[0] = 2;
 		plogMRe->headFlag[1] = 3;
 
-		send(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);			//·¢ËÍÊı¾İ
-		printf("\n·¢ËÍÓÃ»§ÃûÈ·ÈÏheadFlag[1]:%d %s\n", plogMRe->headFlag[1], plogMRe->userMessage);
+		send(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);			//å‘é€æ•°æ®
+		//printf("\nå‘é€ç”¨æˆ·åç¡®è®¤headFlag[1]:%d %s\n", plogMRe->headFlag[1], plogMRe->userMessage);
 
-		recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);		//½ÓÊÜ·şÎñÆ÷·µ»ØµÄÊı¾İ
-		printf("received server :%d %s\n", plogMRe->headFlag[1], plogMRe->userMessage);
+		recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);		//æ¥å—æœåŠ¡å™¨è¿”å›çš„æ•°æ®
+		//printf("received server :%d %s\n", plogMRe->headFlag[1], plogMRe->userMessage);
 
 		if (3 == plogMRe->headFlag[1])
 		{
-			printf("ĞŞ¸Ä³É¹¦£¡\n");
+			printf("\n------------------------------------------------------------------------\n");
+			printf("ä¿®æ”¹æˆåŠŸï¼\n");
 		}
 		else
 		{
-			printf("ĞŞ¸ÄÊ§°Ü£¡Çë¼ì²éÄúµÄ²Ù×÷£¡\n");
+			printf("\n------------------------------------------------------------------------\n");
+			printf("ä¿®æ”¹å¤±è´¥ï¼è¯·æ£€æŸ¥æ‚¨çš„æ“ä½œï¼\n");
 		}
+
+	}
+	else
+	{
+		printf("\n------------------------------------------------------------------------\n");
+		printf("è¯·æ±‚å¤±è´¥ï¼\n");
+	}
 
 	free(plogM);
 	free(plogMRe);
@@ -604,33 +546,68 @@ void changeUser(SOCKET sockClient)
 void queryUser(SOCKET sockClient)
 {
 	SOCKET soc = sockClient;
-	logM *plogM = (logM *)calloc(1, sizeof(logM));		//·¢ËÍÏò·şÎñÆäÇëÇó²éÑ¯µÄÏûÏ¢
-	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//½ÓÊÜ·şÎñÆ÷»Ø´«µÄ×´Ì¬ĞÅÏ¢ºÍÓÃ»§ĞÅÏ¢
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//å‘é€å‘æœåŠ¡å…¶è¯·æ±‚æŸ¥è¯¢çš„æ¶ˆæ¯
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//æ¥å—æœåŠ¡å™¨å›ä¼ çš„çŠ¶æ€ä¿¡æ¯å’Œç”¨æˆ·ä¿¡æ¯
 
-	logM *nameList = listExistUserName(soc);
-	char queryName[20] = { 0 };
-	//ÊäÈëÒª²éÑ¯µÄÓÃ»§Ãû£¬ÁĞ³ö¸ÃÓÃ»§µÄÏêÏ¸ĞÅÏ¢
-	if (getNameOrRoleInput(nameList->userMessage, queryName) == 1)
+	plogM->headFlag[0] = 2;	//ç”¨æˆ·ç®¡ç†æ ‡å¿—
+	plogM->headFlag[1] = 4;	//æŸ¥è¯¢ç”¨æˆ·æ ‡è¯†
+	plogM->headFlag[2] = 1;	//ç”³è¯·æŸ¥è¯¢æ ‡å¿—
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//å‘é€æ•°æ®
+
+	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);		//æ¥å—æœåŠ¡å™¨è¿”å›çš„æ•°æ®
+
+	if (1 == plogMRe->headFlag[2])
 	{
-		strcpy(plogM->userMessage, queryName);
-	}
-	plogM->headFlag[0] = 2;
-	plogM->headFlag[1] = 4;
-	plogM->headFlag[2] = 2;
-	send(sockClient, (char *)plogM, sizeof(*plogM), 0);	//·¢ËÍÊı¾İ
-		printf("\n·¢ËÍÓÃ»§ÃûÈ·ÈÏheadFlag[2]:%d %s\n", plogM->headFlag[2], plogM->userMessage);
+		//åˆ—å‡ºå·²å­˜åœ¨æ‰€æœ‰ç”¨æˆ·å
+		char *allUserName = plogMRe->userMessage;
+		char *pAum = allUserName;
+		char buf[20] = { 0 };
+		printf("------------------------------------------------------------------------\n");
+		printf("\t\t\t  **** ç”¨æˆ·ç®¡ç†ç³»ç»Ÿ ****\n");
+		printf("------------------------------------------------------------------------\n");
+		printf("\t----ç”¨æˆ·ç®¡ç†\n");
+		printf("\t-------æŸ¥è¯¢ç”¨æˆ·\n");
+		printf("------------------------------------------------------------------------\n\n");
+		printf("\n\n------------------------------------------------------------------------\n");
+		printf("æ‰€æœ‰ç”¨æˆ·ä¿¡æ¯:\n");
+		while (*allUserName != '\0')
+		{
+			if (*allUserName == ':')
+			{
+				strncpy(buf, pAum, allUserName - pAum);
+				buf[allUserName - pAum] = '\0';
+				printf("\tç”¨æˆ·åï¼š %s\n",buf);
+				pAum = pAum + (allUserName - pAum) + 1;
+			}
+			allUserName++;
+		}
 
-		recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);	//½ÓÊÜ·şÎñÆ÷·µ»ØµÄÊı¾İ
-		printf("received server :%d %s\n", plogMRe->headFlag[2], plogMRe->userMessage);
+		//è¾“å…¥è¦æŸ¥è¯¢çš„ç”¨æˆ·åï¼Œåˆ—å‡ºè¯¥ç”¨æˆ·çš„è¯¦ç»†ä¿¡æ¯
+		char queryName[20] = { 0 };
+		plogM->headFlag[2] = 2;
+		memset(plogMRe, 0, sizeof(logM));
+
+		printf("\n\n------------------------------------------------------------------------\n");
+		printf("è¯·è¾“å…¥è¦æŸ¥è¯¢çš„ç”¨æˆ·åï¼š");
+		scanf("%s", queryName);
+		strcpy(plogM->userMessage, queryName);
+		system("cls");
+		send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//å‘é€æ•°æ®
+		//printf("\nå‘é€ç”¨æˆ·åç¡®è®¤headFlag[2]:%d %s\n", plogM->headFlag[2], plogM->userMessage);
+
+		recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);		//æ¥å—æœåŠ¡å™¨è¿”å›çš„æ•°æ®
+		//printf("received server :%d %s\n", plogMRe->headFlag[2], plogMRe->userMessage);
 
 		strcat(plogMRe->userMessage, ":");
+		system("cls");
 		if (2 == plogMRe->headFlag[2])
 		{
 			char *oneUserMsg = plogMRe->userMessage;
 			char *pOum = oneUserMsg;
 			char buf[40] = { 0 };
 
-			printf("ÓÃ»§ĞÅÏ¢ÏêÏ¸ĞÅÏ¢:\n");
+			printf("\n------------------------------------------------------------------------\n");
+			printf("ç”¨æˆ·ä¿¡æ¯è¯¦ç»†ä¿¡æ¯:\n");
 			while (*oneUserMsg != '\0')
 			{
 				if (*oneUserMsg == ':')
@@ -638,47 +615,45 @@ void queryUser(SOCKET sockClient)
 					strncpy(buf, pOum, oneUserMsg - pOum);
 					buf[oneUserMsg - pOum] = '\0';
 
-					printf("¸ÃÓÃ»§ĞÅÏ¢£º %s\n", buf);
+					printf("è¯¥ç”¨æˆ·ä¿¡æ¯ï¼š %s\n", buf);
 					pOum = pOum + (oneUserMsg - pOum) + 1;
 				}
 				oneUserMsg++;
 			}
 		}
 
+	}
+	else
+	{
+		printf("\n\n------------------------------------------------------------------------\n");
+		printf("è¯·æ±‚å¤±è´¥ï¼\n");
+		getchar();
+		getchar();
+		system("cls");
+	}
+
 	free(plogM);
 	free(plogMRe);
 }
-logM *listExistUserName(SOCKET sockClient)
+void listExistUserName(logM * plogM)
 {
-	SOCKET soc = sockClient;
-	logM *plogM = (logM *)calloc(1, sizeof(logM));		//·¢ËÍÏò·şÎñÆäÇëÇó²éÑ¯µÄÏûÏ¢
-	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//½ÓÊÜ·şÎñÆ÷»Ø´«µÄ×´Ì¬ĞÅÏ¢ºÍÓÃ»§ĞÅÏ¢
-
-	userMsg *pUserMsg = (userMsg *)calloc(1, sizeof(userMsg)); //½ÓÊÜÊäÈëµÄĞŞ¸ÄĞÅÏ¢
-	char *allMsg = (char *)calloc(1024, sizeof(char));			//±£´æĞŞ¸ÄĞÅÏ¢£¬
-
-	plogM->headFlag[0] = 2;	//ÓÃ»§¹ÜÀí±êÖ¾
-	plogM->headFlag[1] = 4;	//²éÑ¯±êÖ¾
-	plogM->headFlag[2] = 1;	//ÉêÇë²éÑ¯±êÖ¾
-	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//·¢ËÍÇëÇó²éÑ¯Êı¾İ
-
-	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);		//½ÓÊÜ·şÎñÆ÷·µ»ØµÄÊı¾İÅĞ¶ÏÊÇ·ñ¿É²é
+	logM * plogMRe = plogM;
 
 	if (1 == plogMRe->headFlag[2])
 	{
-		//ÁĞ³öÒÑ´æÔÚËùÓĞÓÃ»§Ãû
+		//åˆ—å‡ºå·²å­˜åœ¨æ‰€æœ‰ç”¨æˆ·å
 		char *allUserName = plogMRe->userMessage;
 		char *pAum = allUserName;
 		char buf[20] = { 0 };
 
-		printf("ËùÓĞÓÃ»§ĞÅÏ¢:\n");
+		printf("æ‰€æœ‰ç”¨æˆ·ä¿¡æ¯:\n");
 		while (*allUserName != '\0')
 		{
 			if (*allUserName == ':')
 			{
 				strncpy(buf, pAum, allUserName - pAum);
 				buf[allUserName - pAum] = '\0';
-				printf("ÓÃ»§Ãû£º %s\n", buf);
+				printf("ç”¨æˆ·åï¼š %s\n", buf);
 				pAum = pAum + (allUserName - pAum) + 1;
 			}
 			allUserName++;
@@ -686,203 +661,227 @@ logM *listExistUserName(SOCKET sockClient)
 	}
 	else
 	{
-		printf("É¾³ıÇëÇó³ö´í£¬²»ÄÜÁĞ³öËùÓĞÓÃ»§Ãû£¡\n");
-	}
-	free(plogM);
-	return plogMRe;
-}
-
-////////////////////////////////½ÇÉ«¹ÜÀí////////////////////////////////////
-void getPrivilege(char *buf, int i)
-{
-	char temp[10];
-	while (1)
-	{
-		memset(temp, 0, sizeof(buf));
-		printf("%s", permissionMessg[i]);
-
-		fgets(temp, 5, stdin);
-		if (strlen(temp) == 2 && temp[1] == '\n')
-		{
-			if (temp[0] == '1' || temp[0] == '0')
-			{
-				buf[i] = temp[0];
-				break;
-			}
-		}
-		printf("ÊäÈë¸ñÊ½²»ÕıÈ·£¡ÇëÖØĞÂÊäÈë\n");
-		fflush(stdin);
+		printf("åˆ é™¤è¯·æ±‚å‡ºé”™ï¼Œä¸èƒ½åˆ—å‡ºæ‰€æœ‰ç”¨æˆ·åï¼\n");
 	}
 }
-void addRole(SOCKET sockClient)				//Ôö¼Ó½ÇÉ«¡¢
+
+////////////////////////////////è§’è‰²ç®¡ç†////////////////////////////////////
+void addRole(SOCKET sockClient)				//å¢åŠ è§’è‰²ã€
 {
 	SOCKET soc = sockClient;
-	logM *plogM = (logM *)calloc(1, sizeof(logM));		//·¢ËÍÏò·şÎñÆäÇëÇó²éÑ¯È¨ÏŞµÄÏûÏ¢
-	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//½ÓÊÜ·şÎñÆ÷»Ø´«µÄ×´Ì¬ĞÅÏ¢ºÍÈ¨ÏŞĞÅÏ¢
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//å‘é€å‘æœåŠ¡å…¶è¯·æ±‚æŸ¥è¯¢æƒé™çš„æ¶ˆæ¯
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//æ¥å—æœåŠ¡å™¨å›ä¼ çš„çŠ¶æ€ä¿¡æ¯å’Œæƒé™ä¿¡æ¯
 
-	char roleName[100] = { 0 };		//Ôİ´æ½ÇÉ«Ãû³Æ
-	char roleNameAndPermission[1024] = { 0 };   //Ôİ´æÒª·¢¸ø·şÎñÆ÷µÄĞÅÏ¢
-	
+	char roleName[100] = { 0 };		//æš‚å­˜è§’è‰²åç§°
+	char roleNameAndPermission[1024] = { 0 };   //æš‚å­˜è¦å‘ç»™æœåŠ¡å™¨çš„ä¿¡æ¯
+	char buf[10] = { 0 };
 
 	if (!soc)
 	{
-		printf("socket error£¡");
+		printf("socket errorï¼");
 	}
 
 	plogM->headFlag[0] = 3;
 	plogM->headFlag[1] = 1;
 
-	while (1)
-	{
-		printf("\nÇëÊäÈë½ÇÉ«Ãû³Æ£¨1-10Î»×ÖÄ¸»òÊı×Ö£©£º");
-		fgets(roleName, 20, stdin);
-		if (strlen(roleName) <= 10 && strlen(roleName) > 0)
-		{
-			roleName[strlen(roleName) - 1] = '\0';
-			if (travUserMesg(roleName) == 1)
-			{
-				break;
-			}
-		}
-		else
-			printf("ÊäÈë¸ñÊ½²»ÕıÈ·£¡ÇëÖØĞÂÊäÈë\n");
-	}
+	printf("\nè¯·è¾“å…¥è§’è‰²åç§°ï¼š");
+	scanf("%s", roleName);
 	strcat(roleNameAndPermission, roleName);
 	strcat(roleNameAndPermission, ":");
 	fflush(stdin);
 
-	printf("\nÇëÑ¡ÔñÒª¸øËùÌí¼ÓµÄ½ÇÉ«¸³ÓèµÄÈ¨ÏŞ£º");
-	printf("\nÊäÈë1±íÊ¾¸³Óè¸ÃÈ¨ÏŞ£¬0±íÊ¾²»¸³Óè¸ÃÈ¨ÏŞ£¡\n");
+	printf("\nè¯·é€‰æ‹©è¦ç»™æ‰€æ·»åŠ çš„è§’è‰²èµ‹äºˆçš„æƒé™ï¼š");
+	printf("\nè¾“å…¥1è¡¨ç¤ºèµ‹äºˆè¯¥æƒé™ï¼Œ0è¡¨ç¤ºä¸èµ‹äºˆè¯¥æƒé™ï¼\n");
 
-	int i = 0;
-	char buf[15] = { 0 };
-	while (i < 10)
-	{
-		getPrivilege(buf, i);
-		i++;
-	}
-	
+	printf("1.å¢åŠ ç”¨æˆ·:");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("2.åˆ é™¤ç”¨æˆ·");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("3.ä¿®æ”¹ç”¨æˆ·");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("4.æŸ¥è¯¢ç”¨æˆ·");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("5.å¢åŠ è§’è‰²");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("6.åˆ é™¤è§’è‰²");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("7.ä¿®æ”¹è§’è‰²");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("8.æŸ¥è¯¢è§’è‰²");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("9.ä¿®æ”¹æƒé™");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+ 
+	printf("10.æŸ¥è¯¢æƒé™");
+	scanf("%s", buf);
 	strcat(roleNameAndPermission, buf);
 
 	strcpy(plogM->userMessage, roleNameAndPermission);
-	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//·¢ËÍÇëÇó²éÑ¯Êı¾İ
-	printf("\nÔö¼Ó½ÇÉ«È·ÈÏ·¢ËÍ£º\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//å‘é€è¯·æ±‚æŸ¥è¯¢æ•°æ®
+	printf("\nå¢åŠ è§’è‰²ç¡®è®¤å‘é€ï¼š\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
 
 	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
-	printf("ÊÕµ½·şÎñÆ÷´«»ØµÄ×Ö·û´®£º\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
+	printf("æ”¶åˆ°æœåŠ¡å™¨ä¼ å›çš„å­—ç¬¦ä¸²ï¼š\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
 	
 	if (1 == plogMRe->headFlag[1])
 	{
-		printf("\n½ÇÉ«Ìí¼Ó³É¹¦£¡");
+		printf("\nè§’è‰²æ·»åŠ æˆåŠŸï¼");
 	}
 	else
 	{
-		printf("\n½ÇÉ«Ìí¼ÓÊ§°Ü£¡");
+		printf("\nè§’è‰²æ·»åŠ å¤±è´¥ï¼");
 	}
 
 	free(plogM);
 	free(plogMRe);
 }
-void deleteRole(SOCKET sockClient)			//É¾³ı½ÇÉ«
+void deleteRole(SOCKET sockClient)			//åˆ é™¤è§’è‰²
 {
 	SOCKET soc = sockClient;
-	logM *plogM = (logM *)calloc(1, sizeof(logM));		//·¢ËÍÏò·şÎñÆäÇëÇó²éÑ¯È¨ÏŞµÄÏûÏ¢
-	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//½ÓÊÜ·şÎñÆ÷»Ø´«µÄ×´Ì¬ĞÅÏ¢ºÍÈ¨ÏŞĞÅÏ¢
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//å‘é€å‘æœåŠ¡å…¶è¯·æ±‚æŸ¥è¯¢æƒé™çš„æ¶ˆæ¯
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//æ¥å—æœåŠ¡å™¨å›ä¼ çš„çŠ¶æ€ä¿¡æ¯å’Œæƒé™ä¿¡æ¯
 	char roleName[100] = { 0 };
 
 	if (!soc)
 	{
-		printf("socket error£¡");
+		printf("socket errorï¼");
 	}
 
 	plogM->headFlag[0] = 3;
 	plogM->headFlag[1] = 2;
 
-	logM *roleList = listExistRole(soc);
-	if (getNameOrRoleInput(roleList->userMessage, roleName) == 1)
-	{
-		strcat(plogM->userMessage, roleName);
-	}
+	listExistRole(soc);
+	printf("\nè¯·è¾“å…¥è¦åˆ é™¤çš„è§’è‰²åç§°ï¼š");
+	scanf("%s", roleName);
+	strcat(plogM->userMessage, roleName);
 
-
-	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//·¢ËÍÇëÇó²éÑ¯Êı¾İ
-	printf("\nÉ¾³ı½ÇÉ«È·ÈÏ£º\n heafFlag[1]=%d   %s", plogMRe->headFlag[1], plogMRe->userMessage);
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//å‘é€è¯·æ±‚æŸ¥è¯¢æ•°æ®
+	printf("\nåˆ é™¤è§’è‰²ç¡®è®¤ï¼š\n heafFlag[1]=%d   %s", plogMRe->headFlag[1], plogMRe->userMessage);
 
 	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
-	printf("\n·şÎñÆ÷´«»Ø£º\n heafFlag[1]=%d   %s", plogMRe->headFlag[1], plogMRe->userMessage);
+	printf("\næœåŠ¡å™¨ä¼ å›ï¼š\n heafFlag[1]=%d   %s", plogMRe->headFlag[1], plogMRe->userMessage);
 
 	if (2 == plogMRe->headFlag[1])
 	{
-		printf("\nÉ¾³ı³É¹¦£¡\n");
+		printf("\nåˆ é™¤æˆåŠŸï¼\n");
 	}
 	else
 	{
-		printf("\nÉ¾³ıÊ§°Ü£¡\n");
+		printf("\nåˆ é™¤å¤±è´¥ï¼\n");
 	}
 }
-void changeRole(SOCKET sockClient)			//ĞŞ¸Ä½ÇÉ«
+void changeRole(SOCKET sockClient)			//ä¿®æ”¹è§’è‰²
 {
 	SOCKET soc = sockClient;
-	logM *plogM = (logM *)calloc(1, sizeof(logM));		//·¢ËÍÏò·şÎñÆäÇëÇó²éÑ¯È¨ÏŞµÄÏûÏ¢
-	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//½ÓÊÜ·şÎñÆ÷»Ø´«µÄ×´Ì¬ĞÅÏ¢ºÍÈ¨ÏŞĞÅÏ¢
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//å‘é€å‘æœåŠ¡å…¶è¯·æ±‚æŸ¥è¯¢æƒé™çš„æ¶ˆæ¯
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//æ¥å—æœåŠ¡å™¨å›ä¼ çš„çŠ¶æ€ä¿¡æ¯å’Œæƒé™ä¿¡æ¯
 
-	char roleName[100] = { 0 };		//Ôİ´æ½ÇÉ«Ãû³Æ
-	char roleNameAndPermission[1024] = { 0 };   //Ôİ´æÒª·¢¸ø·şÎñÆ÷µÄĞÅÏ¢
+	char roleName[100] = { 0 };		//æš‚å­˜è§’è‰²åç§°
+	char roleNameAndPermission[1024] = { 0 };   //æš‚å­˜è¦å‘ç»™æœåŠ¡å™¨çš„ä¿¡æ¯
+	char buf[10] = { 0 };
+	listExistRole(soc);
+
+	//è¾“å…¥è¦ä¿®æ”¹çš„è§’è‰²å
 	char changeName[200] = { 0 };
 
-	//ÊäÈëÒªĞŞ¸ÄµÄ½ÇÉ«Ãû
 	plogM->headFlag[0] = 3;
 	plogM->headFlag[1] = 3;
 	memset(plogMRe, 0, sizeof(logM));
 
-	logM *roleList = listExistRole(soc);
-	if (getNameOrRoleInput(roleList->userMessage, roleName) == 1)
-	{
-		strcat(roleNameAndPermission, roleName);
-		strcat(roleNameAndPermission, ":");
-	}
-
+	printf("\nè¯·è¾“å…¥è¦ä¿®æ”¹çš„è§’è‰²åç§°ï¼š");
+	scanf("%s", roleName);
+	strcat(roleNameAndPermission, roleName);
+	strcat(roleNameAndPermission, ":");
 	fflush(stdin);
 
-	printf("\nÇëÖØĞÂ¸³Óè¸Ã½ÇÉ«È¨ÏŞ¡£\n");
-	printf("\nÊäÈë1±íÊ¾¸³Óè¸ÃÈ¨ÏŞ£¬0±íÊ¾²»¸³Óè¸ÃÈ¨ÏŞ£¡\n");
+	printf("\nè¯·é‡æ–°èµ‹äºˆè¯¥è§’è‰²æƒé™ã€‚\n");
+	printf("\nè¾“å…¥1è¡¨ç¤ºèµ‹äºˆè¯¥æƒé™ï¼Œ0è¡¨ç¤ºä¸èµ‹äºˆè¯¥æƒé™ï¼\n");
 
-	int i = 0;
-	char buf[15] = { 0 };
-	while (i < 10)
-	{
-		getPrivilege(buf, i);
-		i++;
-	}
+	printf("1.å¢åŠ ç”¨æˆ·:");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
 
+	printf("2.åˆ é™¤ç”¨æˆ·");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("3.ä¿®æ”¹ç”¨æˆ·");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("4.æŸ¥è¯¢ç”¨æˆ·");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("5.å¢åŠ è§’è‰²");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("6.åˆ é™¤è§’è‰²");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("7.ä¿®æ”¹è§’è‰²");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("8.æŸ¥è¯¢è§’è‰²");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("9.ä¿®æ”¹æƒé™");
+	scanf("%s", buf);
+	strcat(roleNameAndPermission, buf);
+
+	printf("10.æŸ¥è¯¢æƒé™");
+	scanf("%s", buf);
 	strcat(roleNameAndPermission, buf);
 
 	strcpy(plogM->userMessage, roleNameAndPermission);
-	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//·¢ËÍÇëÇó²éÑ¯Êı¾İ
-	printf("\nÔö¼Ó½ÇÉ«È·ÈÏ·¢ËÍ£º\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//å‘é€è¯·æ±‚æŸ¥è¯¢æ•°æ®
+	printf("\nå¢åŠ è§’è‰²ç¡®è®¤å‘é€ï¼š\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
 
 	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
-	printf("ÊÕµ½·şÎñÆ÷´«»ØµÄ×Ö·û´®£º\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
-	strcpy(userInfo, plogMRe->userMessage);
+	printf("æ”¶åˆ°æœåŠ¡å™¨ä¼ å›çš„å­—ç¬¦ä¸²ï¼š\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
+
 	if (3 == plogMRe->headFlag[1])
 	{
-		printf("\n½ÇÉ«ĞŞ¸Ä³É¹¦£¡\n");
+		printf("\nè§’è‰²ä¿®æ”¹æˆåŠŸï¼\n");
 	}
 	else
 	{
-		printf("\n½ÇÉ«ĞŞ¸ÄÊ§°Ü£¡\n");
+		printf("\nè§’è‰²ä¿®æ”¹å¤±è´¥ï¼\n");
 	}
 
 	free(plogM);
 	free(plogMRe);
 }
-void queryRole(SOCKET sockClient)			//²éÑ¯½ÇÉ«
+void queryRole(SOCKET sockClient)			//æŸ¥è¯¢è§’è‰²
 {
 	SOCKET soc = sockClient;
-	logM *plogM = (logM *)calloc(1, sizeof(logM));		//·¢ËÍÏò·şÎñÆäÇëÇó²éÑ¯È¨ÏŞµÄÏûÏ¢
-	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//½ÓÊÜ·şÎñÆ÷»Ø´«µÄ×´Ì¬ĞÅÏ¢ºÍÈ¨ÏŞĞÅÏ¢
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//å‘é€å‘æœåŠ¡å…¶è¯·æ±‚æŸ¥è¯¢æƒé™çš„æ¶ˆæ¯
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//æ¥å—æœåŠ¡å™¨å›ä¼ çš„çŠ¶æ€ä¿¡æ¯å’Œæƒé™ä¿¡æ¯
+
+	listExistRole(soc);
 		
-	//ÊäÈëÒª²éÑ¯µÄ½ÇÉ«Ãû£¬ÁĞ³ö¸ÃÓÃ»§µÄÏêÏ¸ĞÅÏ¢
+	//è¾“å…¥è¦æŸ¥è¯¢çš„è§’è‰²åï¼Œåˆ—å‡ºè¯¥ç”¨æˆ·çš„è¯¦ç»†ä¿¡æ¯
 	char queryName[200] = { 0 };
 
 	plogM->headFlag[0] = 3;
@@ -890,16 +889,14 @@ void queryRole(SOCKET sockClient)			//²éÑ¯½ÇÉ«
 	plogM->headFlag[2] = 2;
 	memset(plogMRe, 0, sizeof(logM));
 
-	logM *roleList = listExistRole(soc);
-	if (getNameOrRoleInput(roleList->userMessage, queryName) == 1)
-	{
-		strcpy(plogM->userMessage, queryName);
-	}
+	printf("è¯·è¾“å…¥è¦æŸ¥è¯¢çš„è§’è‰²åï¼š");
+	scanf("%s", queryName);
+	strcpy(plogM->userMessage, queryName);
 
-	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//·¢ËÍÊı¾İ
-	printf("\n·¢ËÍÓÃ»§ÃûÈ·ÈÏheadFlag[2]:%d %s\n", plogM->headFlag[2], plogM->userMessage);
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//å‘é€æ•°æ®
+	printf("\nå‘é€ç”¨æˆ·åç¡®è®¤headFlag[2]:%d %s\n", plogM->headFlag[2], plogM->userMessage);
 
-	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);		//½ÓÊÜ·şÎñÆ÷·µ»ØµÄÊı¾İ
+	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);		//æ¥å—æœåŠ¡å™¨è¿”å›çš„æ•°æ®
 	printf("received server :%d %s\n", plogMRe->headFlag[2], plogMRe->userMessage);
 
 	strcat(plogMRe->userMessage, ":");
@@ -907,7 +904,7 @@ void queryRole(SOCKET sockClient)			//²éÑ¯½ÇÉ«
 	{
 		char *oneRolePermission = plogMRe->userMessage;
 
-		printf("½ÇÉ«ÏêÏ¸ĞÅÏ¢:\n");
+		printf("è§’è‰²è¯¦ç»†ä¿¡æ¯:\n");
 		for (int i = 0; oneRolePermission[i] != ':'; i++)
 		{
 			if (oneRolePermission[i] == '1')
@@ -918,47 +915,48 @@ void queryRole(SOCKET sockClient)			//²éÑ¯½ÇÉ«
 	}
 	else
 	{
-		printf("\n²éÑ¯Ê§°Ü£¡\n");
+		printf("\næŸ¥è¯¢å¤±è´¥ï¼\n");
 	}
+
 	
 	free(plogM);
 	free(plogMRe);
 }
-logM *listExistRole(SOCKET sockClient)		//ÁĞ³öµ±Ç°ËùÓĞ½ÇÉ«Ãû
+void listExistRole(SOCKET sockClient)		//åˆ—å‡ºå½“å‰æ‰€æœ‰è§’è‰²å
 {
 	SOCKET soc = sockClient;
-	logM *plogM = (logM *)calloc(1, sizeof(logM));		//·¢ËÍÏò·şÎñÆäÇëÇó²éÑ¯È¨ÏŞµÄÏûÏ¢
-	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//½ÓÊÜ·şÎñÆ÷»Ø´«µÄ×´Ì¬ĞÅÏ¢ºÍÈ¨ÏŞĞÅÏ¢
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//å‘é€å‘æœåŠ¡å…¶è¯·æ±‚æŸ¥è¯¢æƒé™çš„æ¶ˆæ¯
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//æ¥å—æœåŠ¡å™¨å›ä¼ çš„çŠ¶æ€ä¿¡æ¯å’Œæƒé™ä¿¡æ¯
 
 	if (!soc)
 	{
-		printf("socket error£¡");
+		printf("socket errorï¼");
 	}
 	plogM->headFlag[0] = 3;
 	plogM->headFlag[1] = 4;
 	plogM->headFlag[2] = 1;
 
-	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//·¢ËÍÇëÇó²éÑ¯½ÇÉ«
-	printf("\nÔö¼Ó½ÇÉ«ËÍÈ·ÈÏ£º\n heafFlag[1]=%d\n", plogMRe->headFlag[2]);
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//å‘é€è¯·æ±‚æŸ¥è¯¢è§’è‰²
+	//printf("\nå¢åŠ è§’è‰²é€ç¡®è®¤ï¼š\n heafFlag[1]=%d\n", plogMRe->headFlag[2]);
 
 	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
-	printf("\n·şÎñÆ÷´«»Ø£º\n heafFlag[1]=%d\n", plogMRe->headFlag[2]);
+	//printf("\næœåŠ¡å™¨ä¼ å›ï¼š\n heafFlag[1]=%d\n", plogMRe->headFlag[2]);
 
-	if (1 == plogMRe->headFlag[2])			//ÇëÇó²éÑ¯½ÇÉ«³É¹¦
+	if (1 == plogMRe->headFlag[2])			//è¯·æ±‚æŸ¥è¯¢è§’è‰²æˆåŠŸ
 	{
-		//ÁĞ³öÒÑ´æÔÚËùÓĞ½ÇÉ«Ãû³Æ
+		//åˆ—å‡ºå·²å­˜åœ¨æ‰€æœ‰è§’è‰²åç§°
 		char *allRoleName = plogMRe->userMessage;
 		char *pArn = allRoleName;
-		char buf[20] = { 0 };		//Ôİ´æ½ÇÉ«Ò»ÌõÃû³Æ
+		char buf[20] = { 0 };		//æš‚å­˜è§’è‰²ä¸€æ¡åç§°
 
-		printf("ËùÓĞ½ÇÉ«ĞÅÏ¢:\n");
+		//printf("æ‰€æœ‰è§’è‰²ä¿¡æ¯:\n");
 		while (*allRoleName != '\0')
 		{
 			if (*allRoleName == ':')
 			{
 				strncpy(buf, pArn, allRoleName - pArn);
 				buf[allRoleName - pArn] = '\0';
-				printf("½ÇÉ«Ãû£º %s\n", buf);
+				printf("è§’è‰²åï¼š %s\n", buf);
 				//memset(buf, 0, sizeof(buf));
 				pArn = pArn + (allRoleName - pArn) + 1;
 			}
@@ -967,88 +965,97 @@ logM *listExistRole(SOCKET sockClient)		//ÁĞ³öµ±Ç°ËùÓĞ½ÇÉ«Ãû
 	}
 	else
 	{
-		printf("\nÇëÇó²éÑ¯½ÇÉ«ĞÅÏ¢Ê§°Ü£¡");
-	}
-
-	free(plogM);
-	//free(plogMRe);
-	return plogMRe;
-}
-
-////////////////////////////////È¨ÏŞ¹ÜÀí////////////////////////////////////
-void changePermission(SOCKET sockClient)			//ĞŞ¸ÄÈ¨ÏŞ
-{
-	SOCKET soc = sockClient;
-	logM *plogM = (logM *)calloc(1, sizeof(logM));		//·¢ËÍÏò·şÎñÆäÇëÇó²éÑ¯È¨ÏŞµÄÏûÏ¢
-	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//½ÓÊÜ·şÎñÆ÷»Ø´«µÄ×´Ì¬ĞÅÏ¢ºÍÈ¨ÏŞĞÅÏ¢
-
-	if (!soc)
-	{
-		printf("socket error£¡");
-	}
-		
-	char permissionNum[20] = { 0 };
-	printf("ÏµÍ³ËùÓĞÈ¨ÏŞÁĞ±í:\n");
-	listExistPermission();
-
-
-	printf("\n\n\nÏµÍ³ÒÑÓĞÈ¨ÏŞÁĞ±í:\n");
-	queryPermission(soc);
-	int i = 0;
-	while (i < 10)
-	{
-		getPrivilege(permissionNum, i);
-		i++;
-	}
-
-	plogM->headFlag[0] = 4;	//È¨ÏŞ¹ÜÀí±êÖ¾
-	plogM->headFlag[1] = 1;	//ÉêÇëĞŞ¸Ä±êÖ¾
-	strcpy(plogM->userMessage, permissionNum);
-
-	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//·¢ËÍÇëÇó²éÑ¯Êı¾İ
-
-	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
-	printf("ÊÕµ½·şÎñÆ÷´«»ØµÄ×Ö·û´®£º\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
-	strcpy(userInfo, plogMRe->userMessage);
-	if (1 == plogMRe->headFlag[1])
-	{
-		printf("ĞŞ¸Ä³É¹¦£¡\n");
-	}
-	else
-	{
-		printf("ĞŞ¸ÄÊ§°Ü£¡\n");
+		printf("\nè¯·æ±‚æŸ¥è¯¢è§’è‰²ä¿¡æ¯å¤±è´¥ï¼");
 	}
 
 	free(plogM);
 	free(plogMRe);
 }
-void queryPermission(SOCKET sockClient)				//²éÑ¯È¨ÏŞ
+
+////////////////////////////////æƒé™ç®¡ç†////////////////////////////////////
+void changePermission(SOCKET sockClient)			//ä¿®æ”¹æƒé™
 {
 	SOCKET soc = sockClient;
-	logM *plogM = (logM *)calloc(1, sizeof(logM));		//·¢ËÍÏò·şÎñÆäÇëÇó²éÑ¯È¨ÏŞµÄÏûÏ¢
-	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//½ÓÊÜ·şÎñÆ÷»Ø´«µÄ×´Ì¬ĞÅÏ¢ºÍÈ¨ÏŞĞÅÏ¢
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//å‘é€å‘æœåŠ¡å…¶è¯·æ±‚æŸ¥è¯¢æƒé™çš„æ¶ˆæ¯
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//æ¥å—æœåŠ¡å™¨å›ä¼ çš„çŠ¶æ€ä¿¡æ¯å’Œæƒé™ä¿¡æ¯
+
+	if (!soc)
+	{
+		printf("socket errorï¼");
+	}
+		
+	char permissionNum[20] = { 0 };
+	printf("ç³»ç»Ÿæ‰€æœ‰æƒé™åˆ—è¡¨:\n");
+	listExistPermission();
+
+	printf("è¯·é€‰æ‹©æƒé™ï¼š(è¾“å…¥1ä¸ºæ·»åŠ ï¼Œè¾“å…¥å…¶ä»–å€¼ä¸ºä¸æ·»åŠ )\n");
+	for (int i = 0; i < 10; i++)
+	{
+		printf("%s", permissionMessg[i]);
+		fflush(stdin);
+		scanf("%c", permissionNum + i);
+	}
+
+	//å¦‚æœç”¨æˆ·è¾“å…¥100ä½çš„æ’é”™ä»£ç 
+	for (int i = 0; i < 10; i++)
+	{
+		if (permissionNum[i] == '1')
+		{
+			permissionNum[i] = '1';
+		}
+		else
+		{
+			permissionNum[i] = '0';
+		}
+	}
+
+	plogM->headFlag[0] = 4;	//æƒé™ç®¡ç†æ ‡å¿—
+	plogM->headFlag[1] = 1;	//ç”³è¯·ä¿®æ”¹æ ‡å¿—
+	strcpy(plogM->userMessage, permissionNum);
+
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//å‘é€è¯·æ±‚æŸ¥è¯¢æ•°æ®
+
+	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
+	printf("æ”¶åˆ°æœåŠ¡å™¨ä¼ å›çš„å­—ç¬¦ä¸²ï¼š\n heafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
+	if (1 == plogMRe->headFlag[1])
+	{
+		printf("ä¿®æ”¹æˆåŠŸï¼\n");
+	}
+	else
+	{
+		printf("ä¿®æ”¹å¤±è´¥ï¼\n");
+	}
+
+	free(plogM);
+	free(plogMRe);
+}
+void queryPermission(SOCKET sockClient)				//æŸ¥è¯¢æƒé™
+{
+	SOCKET soc = sockClient;
+	logM *plogM = (logM *)calloc(1, sizeof(logM));		//å‘é€å‘æœåŠ¡å…¶è¯·æ±‚æŸ¥è¯¢æƒé™çš„æ¶ˆæ¯
+	logM *plogMRe = (logM *)calloc(1, sizeof(logM));	//æ¥å—æœåŠ¡å™¨å›ä¼ çš„çŠ¶æ€ä¿¡æ¯å’Œæƒé™ä¿¡æ¯
 
 
 	if (!soc)
 	{
-		printf("socket error£¡");
+		printf("socket errorï¼");
 	}
-	plogM->headFlag[0] = 4;	//È¨ÏŞ¹ÜÀí±êÖ¾
-	plogM->headFlag[1] = 2;	//ÉêÇë²éÑ¯±êÖ¾
+	plogM->headFlag[0] = 4;	//æƒé™ç®¡ç†æ ‡å¿—
+	plogM->headFlag[1] = 2;	//ç”³è¯·æŸ¥è¯¢æ ‡å¿—
 
-	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//·¢ËÍÇëÇó²éÑ¯Êı¾İ
+	send(sockClient, (char *)plogM, sizeof(*plogM), 0);			//å‘é€è¯·æ±‚æŸ¥è¯¢æ•°æ®
 
 	recv(sockClient, (char *)plogMRe, sizeof(*plogMRe), 0);
-	printf("ÊÕµ½·şÎñÆ÷´«»ØµÄ×Ö·û´®£ºheafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
+	printf("æ”¶åˆ°æœåŠ¡å™¨ä¼ å›çš„å­—ç¬¦ä¸²ï¼šheafFlag[1]=%d %s", plogMRe->headFlag[1], plogMRe->userMessage);
 
 	if (2 == plogMRe->headFlag[1])
 	{
-		//ÁĞ³öÒÑ´æÔÚËùÓĞÈ¨ÏŞ
-		char *pAp = plogMRe->userMessage;  //ÊÇ0 1×Ö·û´®
+		//åˆ—å‡ºå·²å­˜åœ¨æ‰€æœ‰æƒé™
+		char *pAp = plogMRe->userMessage;  //æ˜¯0 1å­—ç¬¦ä¸²
 		int len = strlen(pAp);
 
 
-		printf("ËùÓĞÈ¨ÏŞĞÅÏ¢:\n");
+		printf("æ‰€æœ‰æƒé™ä¿¡æ¯:\n");
 		for (int i = 0; i < len; i++)
 		{
 			if (pAp[i] != '0')
@@ -1059,15 +1066,16 @@ void queryPermission(SOCKET sockClient)				//²éÑ¯È¨ÏŞ
 	}
 	else
 	{
-		printf("ÇëÇóÊ§°Ü£¡\n");
+		printf("è¯·æ±‚å¤±è´¥ï¼\n");
 	}
 
 	free(plogM);
 	free(plogMRe);
 
 }
-void listExistPermission()			//ÁĞ³öµ±Ç°ËùÓĞÈ¨ÏŞÃû
+void listExistPermission()			//åˆ—å‡ºå½“å‰æ‰€æœ‰æƒé™å
 {
+
 	for (int i = 0; i < 10; i++)
 	{
 		printf("%s\n", permissionMessg[i]);
@@ -1091,70 +1099,72 @@ void judgePasswd(char *password)
 			printf("*");
 			password[i] = c;
 		}
-		while (c == 8 && i > 0)
+		while (c == 8 && i >= 0)
 		{
 			printf("\b \b");
 			i--;
 			c = _getch();
 			a++;
 		}
-		while (a >= 1)
+		while (a == 1)
 		{
 			c = _getch();
 			if ((c <= 90 && c >= 65) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57))
-			{
-				printf("*");
 				password[i] = c;
-				a--;
-				if (a < 1)
-				{
-					i--;
-				}
-				i++;
-			}	
+			a--;
 		}
 	}
 }
+
 void userManage(SOCKET sockClient)
 {
 	SOCKET sok = sockClient;
 
 	int chooseU = -1;
-	while (chooseU)		//Ñ­»·ÓÃ»§¹ÜÀí µÄ4¸öÑ¡Ïî
+	while (chooseU)		//å¾ªç¯ç”¨æˆ·ç®¡ç† çš„4ä¸ªé€‰é¡¹
 	{
 		userManageMenu();
-		printf("\nÇëÑ¡Ôñ¹¦ÄÜ:");
+		printf("\n------------------------------------------------------------------------");
+		printf("\nè¯·é€‰æ‹©åŠŸèƒ½:");
 		scanf("%d", &chooseU);
 
-		if (getchar() != '\n')  //ÅÅ³ı1A  µÄÊäÈë
+		if (getchar() != '\n')  //æ’é™¤1A  çš„è¾“å…¥
 		{
-			printf("ÇëÖØĞÂÊäÈëÏÂÁĞÑ¡Ïî±àºÅ£º\n");
+			printf("\n------------------------------------------------------------------------\n");
+			printf("è¯·é‡æ–°è¾“å…¥ä¸‹åˆ—é€‰é¡¹ç¼–å·ï¼š\n");
 			continue;
 		}
-
-		if (chooseU == 1 && userInfo[0] == '1')		//Ôö¼ÓÓÃ»§
+		system("cls");
+		if (chooseU == 1)		//å¢åŠ ç”¨æˆ·
 		{
-			printf("ĞèÒªÌîĞ´µÄĞÅÏ¢ÈçÏÂ£º");
+			printf("\n------------------------------------------------------------------------\n");
+			printf("éœ€è¦å¡«å†™çš„ä¿¡æ¯å¦‚ä¸‹ï¼š\n");
 			userAllMessageMenu();
 			addUser(sok);
 		}
-		else if (2 == chooseU && userInfo[1] == '1')	//É¾³ıÓÃ»§
+		else if (2 == chooseU)	//åˆ é™¤ç”¨æˆ·
 		{
 			deleteUser(sok);
 		}
-		else if (3 == chooseU && userInfo[2] == '1')	//ĞŞ¸ÄÓÃ»§
+		else if (3 == chooseU)	//ä¿®æ”¹ç”¨æˆ·
 		{
 			changeUser(sok);
 		}
-		else if (4 == chooseU && userInfo[3] == '1')	//²éÑ¯ÓÃ»§
+		else if (4 == chooseU)	//æŸ¥è¯¢ç”¨æˆ·
 		{
-			printf("²éÑ¯ÓÃ»§£º\n");
+			//printf("\n------------------------------------------------------------------------");
+			//printf("\næŸ¥è¯¢ç”¨æˆ·ï¼š\n");
 			queryUser(sok);
-			printf("²éÑ¯ÓÃ»§½áÊø\n");
+			printf("\n\n------------------------------------------------------------------------");
+			printf("\næŸ¥è¯¢ç”¨æˆ·ç»“æŸ!\næŒ‰å›è½¦é”®å›åˆ°èœå•ã€‚\n");
+			getchar();
+			getchar();
+			system("cls");
 		}
 		else if (0 != chooseU)
 		{
-			printf("ÄúµÄÊäÈëÓĞÎó£¡ÇëÖØĞÂÊäÈë£º\n");
+			printf("\n------------------------------------------------------------------------");
+			printf("\næ‚¨çš„è¾“å…¥æœ‰è¯¯ï¼è¯·é‡æ–°è¾“å…¥ï¼š\n");
 
 		}
 	}
@@ -1166,37 +1176,37 @@ void roleManage(SOCKET sockClient)
 	fflush(stdin);
 	while (chooseR)
 	{
-		printf("½ÇÉ«¹ÜÀí²Ëµ¥£º\n");
+		printf("è§’è‰²ç®¡ç†èœå•ï¼š\n");
 		roleManageMenu();
-		printf("\nÇëÑ¡Ôñ¹¦ÄÜ:");
+		printf("\nè¯·é€‰æ‹©åŠŸèƒ½:");
 		scanf("%d", &chooseR);
 
-		if (getchar() != '\n')  //ÅÅ³ı1A  µÄÊäÈë
+		if (getchar() != '\n')  //æ’é™¤1A  çš„è¾“å…¥
 		{
-			printf("ÇëÖØĞÂÊäÈëÏÂÁĞÑ¡Ïî±àºÅ£º\n");
+			printf("è¯·é‡æ–°è¾“å…¥ä¸‹åˆ—é€‰é¡¹ç¼–å·ï¼š\n");
 			continue;
 		}
 
-		if (chooseR == 1 && userInfo[4] == '1')		//Ôö¼Ó½ÇÉ«
+		if (chooseR == 1)		//å¢åŠ è§’è‰²
 		{
-			printf("\nĞèÒªÌîĞ´µÄĞÅÏ¢ÈçÏÂ£º");
+			printf("\néœ€è¦å¡«å†™çš„ä¿¡æ¯å¦‚ä¸‹ï¼š");
 			addRole(sok);
 		}
-		else if (2 == chooseR && userInfo[5] == '1')	//É¾³ı½ÇÉ«
+		else if (2 == chooseR)	//åˆ é™¤è§’è‰²
 		{
 			deleteRole(sok);
 		}
-		else if (3 == chooseR && userInfo[6] == '1')	//ĞŞ¸Ä½ÇÉ«
+		else if (3 == chooseR)	//ä¿®æ”¹è§’è‰²
 		{
 			changeRole(sok);
 		}
-		else if (4 == chooseR && userInfo[7] == '1')	//²éÑ¯½ÇÉ«
+		else if (4 == chooseR)	//æŸ¥è¯¢è§’è‰²
 		{
 			queryRole(sok);
 		}
 		else if (0 != chooseR)
 		{
-			printf("ÄúµÄÊäÈëÓĞÎó£¡ÇëÖØĞÂÊäÈë£º\n");
+			printf("æ‚¨çš„è¾“å…¥æœ‰è¯¯ï¼è¯·é‡æ–°è¾“å…¥ï¼š\n");
 
 		}
 	}
@@ -1208,71 +1218,30 @@ void permissionManage(SOCKET sockClient)
 
 	while (chooseP)
 	{
-		printf("È¨ÏŞ¹ÜÀí²Ëµ¥£º\n");
+		printf("æƒé™ç®¡ç†èœå•ï¼š\n");
 		permissionManageMenu();
 		fflush(stdin);
 
-		printf("\nÇëÑ¡Ôñ¹¦ÄÜ:");
+		printf("\nè¯·é€‰æ‹©åŠŸèƒ½:");
 		scanf("%d", &chooseP);
 
-		if (getchar() != '\n')  //ÅÅ³ı1A  µÄÊäÈë
+		if (chooseP == 1)		//ä¿®æ”¹æƒé™
 		{
-			printf("ÇëÖØĞÂÊäÈëÏÂÁĞÑ¡Ïî±àºÅ£º\n");
-			continue;
-		}
-		if (chooseP == 1 && userInfo[8] == '1')		//ĞŞ¸ÄÈ¨ÏŞ
-		{
-			printf("ĞŞ¸ÄÈ¨ÏŞ£º");
+			printf("ä¿®æ”¹æƒé™ï¼š");
 			changePermission(sok);
 		}
 
-		else if (2 == chooseP && userInfo[9] == '1')	//²éÑ¯È¨ÏŞ
+		else if (2 == chooseP)	//æŸ¥è¯¢æƒé™
 		{
-			printf("²éÑ¯È¨ÏŞ£º\n");
+			printf("æŸ¥è¯¢æƒé™ï¼š\n");
 			queryPermission(sok);
-			printf("²éÑ¯ÓÃ»§½áÊø\n");
+			printf("æŸ¥è¯¢ç”¨æˆ·ç»“æŸ\n");
 
 		}
 		else if (0 != chooseP)
 		{
-			printf("ÄúµÄÊäÈëÓĞÎó£¡ÇëÖØĞÂÊäÈë£º\n");
+			printf("æ‚¨çš„è¾“å…¥æœ‰è¯¯ï¼è¯·é‡æ–°è¾“å…¥ï¼š\n");
 		}
 	}
 
-}
-void getSystemTime(char *str)
-{
-	time_t nowtime;
-	struct tm *timeinfo;
-	time(&nowtime);
-	timeinfo = localtime(&nowtime);
-	int year, month, day;
-	year = timeinfo->tm_year + 1900;
-	month = timeinfo->tm_mon + 1;
-	day = timeinfo->tm_mday;
-	sprintf(str, "%d-%d-%d", year, month, day);
-}
-
-int getNameOrRoleInput(char *list, char *msg)
-{
-	char *p, *start;
-	char buf[20];
-	while (1)
-	{
-		p = start = list;
-		printf("       ÇëÊäÈëÉÏÃæÁĞ±íÖĞµÄÃû×Ö:");
-		scanf("%s", msg);
-		while (*p)
-		{
-			memset(buf, 0, sizeof(buf));
-			p = strchr(start, ':');
-			strncpy(buf, start, p - start);
-			if (strcmp(buf, msg) == 0)
-			{
-				return 1;
-			}
-			p++;
-			start = p;
-		}
-	}
 }
