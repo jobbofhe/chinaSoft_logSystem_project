@@ -1,4 +1,5 @@
-﻿//#define _CRT_SECURE_NO_WARNINGS
+﻿//123132
+//#define _CRT_SECURE_NO_WARNINGS
 #include "func.h"
 #include<stdio.h>
 #include<stdlib.h>
@@ -21,7 +22,7 @@ void logMenu()
 	printf("\t************************************************************\n");
 	printf("\n");
 	printf("------------------------------------------------------------------------");
-}
+} 
 
 logM *logToSystem()
 {
@@ -46,7 +47,7 @@ logM *logToSystem()
 		printf("\t请输入用户名(仅包含字母、数字或两者组合,用户名位数小于8位)：\n");
 		//gets(userName);
 		fgets(userName, 21, stdin);  //截取输入的20位
-									 //printf("%d", strlen(userName));
+		//printf("%d", strlen(userName));
 		userName[strlen(userName) - 1] = '\0';
 		printf("------------------------------------------------------------------------");
 		printf("\n请输入密码(仅包含字母、数字或两者组合)：\n");
@@ -55,17 +56,17 @@ logM *logToSystem()
 		/*char c;
 		for (int i = 0; i < 100; i++)
 		{
-		c = _getch();
-		if (c == 13)
-		{
-		password[i] = '\0';
-		break;
-		}
-		if ((c <= 90 && c >= 65) || (c >= 97 && c <= 122) || (c >= 48 || c <= 57))
-		{
-		printf("*");
-		}
-		password[i] = c;
+			c = _getch();
+			if (c == 13)
+			{
+				password[i] = '\0';
+				break;
+			}
+			if ((c <= 90 && c >= 65) || (c >= 97 && c <= 122) || (c >= 48 || c <= 57))
+			{
+				printf("*");
+			}
+			password[i] = c;
 		}*/
 
 		/*char c;
@@ -75,16 +76,16 @@ logM *logToSystem()
 		c = _getch();
 		if (c != '\n' && c != '\r' && c != 127)
 		{
-		password[n] = c;
-		printf("*");
-		n++;
+			password[n] = c;
+			printf("*");
+			n++;
 		}
 		else if ((c != '\n' || c!= '\r') && c != 127)
 		{
 		if (n > 0)
 		{
-		n--;
-		printf("\b \b");
+			n--;
+			printf("\b \b");
 		}
 		}
 		} while ((c != '\n' || c != '\r') &&  c!=127);
@@ -92,7 +93,7 @@ logM *logToSystem()
 
 		//判断密码
 		judgePasswd(password);
-
+		
 		fflush(stdin);
 
 		userNameLen = strlen(userName);
@@ -114,7 +115,7 @@ logM *logToSystem()
 		printf("%s ", password);
 		icountu = travUserMesg(userName);
 		icountp = travUserMesg(password);
-
+	
 		if (count >= 3)
 		{
 			printf("您已经输错三次，系统将会在3秒钟后退出！");
@@ -129,7 +130,7 @@ logM *logToSystem()
 	strcat(allMessge, password);
 
 	plogM->headFlag[0] = 1;
-	memcpy(plogM->userMessage, allMessge, userNameLen + passwordLen + 1);
+	memcpy(plogM->userMessage, allMessge, userNameLen+passwordLen + 1);
 
 	return plogM;
 }
