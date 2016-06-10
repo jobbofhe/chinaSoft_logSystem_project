@@ -1,3 +1,4 @@
+//123
 //#define _CRT_SECURE_NO_WARNINGS
 #include "func.h"
 #include<stdio.h>
@@ -18,7 +19,6 @@ char *permissionMessg[] = {
 	"10.查询权限",
 };
 
-
 void main()
 {
 
@@ -32,13 +32,13 @@ void main()
 	SOCKET sockClient = connectToServer();//连接到服务器
 	send(sockClient, (const char *)pSend, sizeof(*pSend), 0);	//发送数据
 	//Sleep(5000);
-	//system("cls");
+	system("cls");
 
 	recv(sockClient, (char *)&pSendRe, sizeof(pSendRe), 0);			//接受服务器返回的数据
-	//printf("发送信息确认:%d   %s\n", pSendRe.headFlag[0], pSendRe.userMessage);//测试传输数据的正确性
-	strcpy(userInfo, pSendRe.userMessage);
-	//printf("%s\n", userInfo); system("pause");
-	//printf("服务器回复:%d\n", pSendRe.headFlag[0]);
+	printf("发送信息确认:%d   %s\n", pSendRe.headFlag[0], pSendRe.userMessage);//测试传输数据的正确性
+
+
+	printf("服务器回复:%d\n", pSendRe.headFlag[0]);
 	processServerReMsg(&pSendRe, sockClient);
 
 	/************************************************************************
