@@ -82,3 +82,5 @@ void permissionManage(SOCKET sockClient);
 
 void getSystemTime(char *str);
 int getNameOrRoleInput(char *str, char *msg);
+
+//12346
