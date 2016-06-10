@@ -1,4 +1,3 @@
-//123
 //#define _CRT_SECURE_NO_WARNINGS
 #include "func.h"
 #include<stdio.h>
